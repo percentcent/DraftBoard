@@ -1,33 +1,23 @@
 package listener;
 
-import shape.Circle;
-import shape.Line;
-import shape.Shape;
+import client.ClientManager;
+import shape.*;
 import shape.Rectangle;
-import shape.Text;
-import shape.Oval;
-import shape.Freehand;
+import shape.Shape;
+
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
 public class DrawPan extends JPanel implements ActionListener, MouseListener,MouseMotionListener {
-	private String shape;
+
 	private Color color;
-	private java.util.List<shape.Shape> shapesArray = new ArrayList<shape.Shape>();
-	private Graphics g = getGraphics();
 	int startX,startY,endX,endY;
 	private ArrayList<Point> points = new ArrayList<Point>();
 	private ArrayList<ArrayList<Point>> actulpoints = new ArrayList<ArrayList<Point>>();
-
-	public String getShape() {
-		return shape;
-	}
-
-	public void setShape(String shape) {
-		this.shape = shape;
-	}
 
 	public Color getColor() {
 		return color;
@@ -39,6 +29,10 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 
 	public DrawPan()
 	{
+		this.setPreferredSize(new Dimension(600, 600));
+		Border border = new LineBorder(Color.black);
+		this.setBorder(border);
+		this.setBackground(Color.white);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -49,26 +43,26 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		int y1 = startY;
 		super.paintComponent(graphics);
 		Graphics g = graphics;
-		for (Shape shape: shapesArray)
+		for (Shape shape: ClientManager.shapes)
 		{
 			shape.drawShape(g);
 		}
 
-		switch(getShape())
+		switch(ClientManager.type)
 		{
-			case "line" :
+			case 0 :
 				g.drawLine(startX, startY, endX, endY);
 				break;
-			case "circle" :
+			case 1 :
 				g.drawOval(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startX - endX));
 				break;
-			case "rectangle" :
+			case 2 :
 				g.drawRect(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startY - endY));
 				break;
-			case "oval" :
+			case 3 :
 				g.drawOval(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startY - endY));
 				break;
-			case "freehand":
+			case 4:
 				for (int i = 0;i < points.size() -1;i++)
 				{
 					g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
@@ -89,7 +83,7 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 	public void mousePressed(MouseEvent e) {
 		startX = e.getX();
 		startY = e.getY();
-		if (getShape() == "freehand")
+		if (ClientManager.type == 4)
 		{
 			points.clear();
 			points.add(e.getPoint());
@@ -102,33 +96,33 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 	public void mouseReleased(MouseEvent e) {
 		endX = e.getX();
 		endY = e.getY();
-		switch(getShape())
+		switch(ClientManager.type)
 		{
-			case "line" :
-				shapesArray.add(new Line(startX, startY, endX, endY, Color.BLACK));
+			case 0:
+				ClientManager.shapes.add(new Line(startX, startY, endX, endY, Color.BLACK));
 				break;
-			case "circle" :
-				shapesArray.add(new Circle(startX, endX, startY, endY, Color.BLACK));
+			case 1 :
+				ClientManager.shapes.add(new Circle(startX, endX, startY, endY, Color.BLACK));
 				break;
-			case "rectangle" :
-				shapesArray.add(new Rectangle(startX, endX, startY, endY, Color.BLACK));
+			case 2 :
+				ClientManager.shapes.add(new Rectangle(startX, endX, startY, endY, Color.BLACK));
 				break;
-			case "oval" :
-				shapesArray.add(new Oval(startX, endX, startY, endY, Color.BLACK));
+			case 3 :
+				ClientManager.shapes.add(new Oval(startX, endX, startY, endY, Color.BLACK));
 				break;
-			case "freehand":
+			case 4:
 				ArrayList<Point> midpoints = new ArrayList<Point>();
 				for (int i = 0; i < points.size() - 1 ; i ++)
 				{
 					midpoints.add(points.get(i).getLocation());
 				}
 				actulpoints.add(midpoints);
-				shapesArray.add(new Freehand(actulpoints,Color.BLACK));
+				ClientManager.shapes.add(new Freehand(actulpoints,Color.BLACK));
 				break;
-			case "text":
+			case 5:
 				String inputValue = JOptionPane.showInputDialog("Please input a value");
 				String text = inputValue;
-				shapesArray.add(new Text(startX, endX, startY, endY, Color.BLACK,text));
+				ClientManager.shapes.add(new Text(startX, endX, startY, endY, Color.BLACK,text));
 				break;
 		}
 		repaint();
@@ -158,7 +152,7 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 	public void mouseDragged(MouseEvent e) {
 		endX = e.getX();
 		endY = e.getY();
-		if(getShape() == "freehand")
+		if(ClientManager.type == 4)
 		{
 			points.add(new Point(endX,endY));
 		}

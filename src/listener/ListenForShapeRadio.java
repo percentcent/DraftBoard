@@ -13,6 +13,21 @@ public class ListenForShapeRadio implements ItemListener {
 		if(CommandArea.rdoCircle.isSelected()) {
 			ClientManager.type = ClientManager.CIRCLE;
 		}
+		if(CommandArea.rdoOval.isSelected()) {
+			ClientManager.type = ClientManager.OVAL;
+		}
+		if(CommandArea.rdoLine.isSelected()) {
+			ClientManager.type = ClientManager.LINE;
+		}
+		if(CommandArea.rdoRect.isSelected()) {
+			ClientManager.type = ClientManager.RECT;
+		}
+		if(CommandArea.rdoFree.isSelected()) {
+			ClientManager.type = ClientManager.FREE;
+		}
+		if(CommandArea.rdoText.isSelected()) {
+			ClientManager.type = ClientManager.TEXT;
+		}
 	}
 
 }

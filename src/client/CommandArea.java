@@ -27,9 +27,9 @@ public class CommandArea extends JPanel {
 
         rdoCircle = new JRadioButton("Circle");
         rdoOval = new JRadioButton("Oval");
-        rdoLine = new JRadioButton("Line", true);
+        rdoLine = new JRadioButton("Line");
         rdoRect = new JRadioButton("Rectangle");
-        rdoFree = new JRadioButton("Freehand");
+        rdoFree = new JRadioButton("Freehand",true);
         rdoText = new JRadioButton("Text");
 
         ButtonGroup grpShape = new ButtonGroup();

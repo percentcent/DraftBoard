@@ -29,7 +29,7 @@ public class ClientManager extends JFrame {
 	public final static int OVAL = 3;
 	public final static int FREE = 4;
 	public final static int TEXT = 5;
-	public static int type = LINE;
+	public static int type = FREE;
 
 	public ClientManager() {
 		shapes = new ArrayList<Shape>();
@@ -38,7 +38,7 @@ public class ClientManager extends JFrame {
 		this.setSize(900, 680);
 		displayArea = new DrawPan();//initialize our canvas
 		commandArea = new CommandArea();//initialize out command area
-        displayArea.setShape("freehand");
+        //displayArea.setShape("freehand");
 		this.add(commandArea);
 		this.add(displayArea);
 		this.setVisible(true);//show the Window
