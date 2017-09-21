@@ -2,24 +2,36 @@ package shape;
 
 import java.awt.*;
 
+import listener.WidthPanel;
+import listener.ColorChooser;
+
 public class Circle implements Shape {
 	
 
 	private int x1, x2,y1,y2;
 	private Color c;
+	private int width;
 
-	public Circle(int x1, int x2, int y1, int y2, Color c) {
+	public Circle(int x1, int x2, int y1, int y2, Color c,int w) {
 		this.x1=x1;
 		this.x2=x2;
 		this.y1=y1;
 		this.y2=y2;
 		this.c=c;
+		this.width=w;
 
 	}
 
-	public void drawShape(Graphics g)
+	@Override
+	public void drawShape(Graphics2D g2)
 	{
-		g.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(x1 - x2));
+		g2.setColor(c);
+		g2.setStroke(new BasicStroke(width));
+		
+		g2.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(x1 - x2));
+		g2.setColor(ColorChooser.color);
+		g2.setStroke(new BasicStroke(WidthPanel.width));
+
 	}
 
 }

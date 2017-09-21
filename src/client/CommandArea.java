@@ -1,21 +1,26 @@
 package client;
 
 import listener.ListenForShapeRadio;
-
+import listener.ListenerEraserRadio;
+import listener.EraserPanel;
+import listener.WidthPanel;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-
+import listener.ColorChooser;
 /**
  * Created by hasee on 2017/9/19.
  */
 public class CommandArea extends JPanel {
-    JPanel pnlShape, pnlColor, pnlEraser;
+    JPanel pnlShape;
+    WidthPanel pnlWidth;
+    EraserPanel pnlEraser;
+    ColorChooser pnlColor;
     //Shape chooser on pnlshape
-    public static JRadioButton rdoCircle, rdoOval, rdoLine, rdoRect, rdoFree, rdoText;
+    public static JRadioButton rdoCircle, rdoOval, rdoLine, rdoRect, rdoFree, rdoText,rdoEraser;
 
     public CommandArea() {
-        this.setBorder(new TitledBorder("Commend Area"));
+        this.setBorder(new TitledBorder("Command Area"));
         Dimension d = new Dimension(250, 600);
         this.setPreferredSize(d);
         this.setLayout(new GridLayout(4, 1));
@@ -31,6 +36,7 @@ public class CommandArea extends JPanel {
         rdoRect = new JRadioButton("Rectangle");
         rdoFree = new JRadioButton("Freehand",true);
         rdoText = new JRadioButton("Text");
+        rdoEraser = new JRadioButton("Eraser");
 
         ButtonGroup grpShape = new ButtonGroup();
         grpShape.add(rdoCircle);
@@ -39,6 +45,7 @@ public class CommandArea extends JPanel {
         grpShape.add(rdoRect);
         grpShape.add(rdoFree);
         grpShape.add(rdoText);
+        grpShape.add(rdoEraser);
 
 
         pnlShape.add(rdoCircle);
@@ -49,14 +56,23 @@ public class CommandArea extends JPanel {
         pnlShape.add(rdoText);
 
         ListenForShapeRadio shapeListener = new ListenForShapeRadio();
+        ListenerEraserRadio eraserListener = new ListenerEraserRadio();
         rdoCircle.addItemListener(shapeListener);
         rdoOval.addItemListener(shapeListener);
         rdoLine.addItemListener(shapeListener);
         rdoRect.addItemListener(shapeListener);
         rdoFree.addItemListener(shapeListener);
         rdoText.addItemListener(shapeListener);
+        rdoEraser.addItemListener(eraserListener);
 
         this.add(pnlShape);
+        pnlWidth = new WidthPanel();
+        this.add(pnlWidth);
+        pnlEraser =new EraserPanel();
+        this.add(pnlEraser);
+        pnlColor = new ColorChooser();
+        this.add(pnlColor);
+        
 
     }
 }

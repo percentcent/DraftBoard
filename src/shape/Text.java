@@ -1,6 +1,7 @@
 package shape;
 
 import java.awt.*;
+import listener.ColorChooser;
 
 /**
  * Created by hasee on 2017/9/15.
@@ -21,9 +22,10 @@ public class Text implements Shape {
     }
 
     @Override
-    public void drawShape(Graphics g) {
-        g.setFont(mf);
-        g.setColor(c);
-        g.drawString(text,x2,y2+20);
+    public void drawShape(Graphics2D g2) {
+        g2.setFont(mf);
+        g2.setColor(c);
+        g2.drawString(text,x2,y2+20);
+        g2.setColor(ColorChooser.color);
     }
 }

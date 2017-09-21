@@ -7,8 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.awt.event.*;
 
 public class ClientManager extends JFrame {
 	public static List<Shape> shapes;
@@ -29,6 +28,7 @@ public class ClientManager extends JFrame {
 	public final static int OVAL = 3;
 	public final static int FREE = 4;
 	public final static int TEXT = 5;
+	public final static int ERASER = 6;
 	public static int type = FREE;
 
 	public ClientManager() {
@@ -42,6 +42,13 @@ public class ClientManager extends JFrame {
 		this.add(commandArea);
 		this.add(displayArea);
 		this.setVisible(true);//show the Window
+		
+		addWindowListener(new WindowAdapter() {
+		public void windowClosing(WindowEvent e) {
+			System.out.println("Exit when Closed event");
+			System.exit(0);
+			}
+		});
 	}
 
 	public static void main(String[] args) {
