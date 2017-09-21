@@ -2,12 +2,13 @@ package client;
 
 import listener.DrawPan;
 import shape.Shape;
-
+import listener.Menu;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.*;
+import javax.swing.JMenuBar; 
 
 public class ClientManager extends JFrame {
 	public static List<Shape> shapes;
@@ -20,6 +21,9 @@ public class ClientManager extends JFrame {
 
 	//ManagerArea
 	JPanel pnlFile;
+	
+	//Menu Bar
+	Menu menu;
 
 	/*Define shape types*/
 	public final static int LINE = 0;
@@ -38,9 +42,13 @@ public class ClientManager extends JFrame {
 		this.setSize(900, 680);
 		displayArea = new DrawPan();//initialize our canvas
 		commandArea = new CommandArea();//initialize out command area
+		menu = new Menu();
+//		JMenu file = new JMenu("File");
+//		menuBar.add(file);
         //displayArea.setShape("freehand");
 		this.add(commandArea);
 		this.add(displayArea);
+		setJMenuBar(menu);
 		this.setVisible(true);//show the Window
 		
 		addWindowListener(new WindowAdapter() {
@@ -55,3 +63,5 @@ public class ClientManager extends JFrame {
 		new ClientManager();
 	}
 }
+
+
