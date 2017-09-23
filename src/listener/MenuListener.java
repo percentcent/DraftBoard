@@ -3,19 +3,18 @@ package listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
-import file_operations.SaveAsFile;
+import file_operations.SaveFile;
 import file_operations.OpenFile;
 import client.ClientManager;
 
 public class MenuListener implements ActionListener {
 	
 	private boolean haveSaved;
-	private SaveAsFile saveInstance;
+	private SaveFile saveInstance;
 	
 	public MenuListener(){
 		this.haveSaved = false;
-		this.saveInstance = new SaveAsFile();
+		this.saveInstance = new SaveFile();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package file_operations;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,13 +17,19 @@ public class SaveFile {
 	FileWriter writer;
 	PrintWriter printer;
 	
-	public SaveFile() {
+	public File currentFile;
+	public String fileName;
+	
+	public void saveAs() {
 		
 		jFileChooser  = new JFileChooser();
 		jFileChooser.setCurrentDirectory(null);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "txt");
 		jFileChooser.setFileFilter(filter);
-		jFileChooser.showSaveDialog(null);
+		if(jFileChooser.showSaveDialog(null)==jFileChooser.CANCEL_OPTION){
+			return;
+		}
+		
 		try {
 			writer = new FileWriter(jFileChooser.getSelectedFile());
 			printer = new PrintWriter(writer);
@@ -31,6 +38,26 @@ public class SaveFile {
 			}
 			printer.close();
 			writer.close();
+			
+			this.currentFile = jFileChooser.getSelectedFile();
+			
+		} catch(FileNotFoundException e) {
+		} catch(IOException e) {
+		}
+		
+	}
+	
+	public void save() {
+		
+		try {
+			writer = new FileWriter(currentFile);
+			printer = new PrintWriter(writer);
+			for(Shape s : ClientManager.shapes) {
+				s.output(printer);
+			}
+			printer.close();
+			writer.close();
+			
 		} catch(FileNotFoundException e) {
 		} catch(IOException e) {
 		}

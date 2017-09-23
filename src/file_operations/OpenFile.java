@@ -24,7 +24,7 @@ public class OpenFile {
 	private FileNameExtensionFilter filter;
 	private FileReader reader;
 	
-	public OpenFile(SaveAsFile saveInstance) {
+	public OpenFile(SaveFile saveInstance) {
 		jFileChooser = new JFileChooser();
 		jFileChooser.setCurrentDirectory(null);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "txt");
