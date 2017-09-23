@@ -14,7 +14,7 @@ public class ClientManager extends JFrame {
 	public static List<Shape> shapes;
 
 	//DisplayArea
-	DrawPan displayArea;
+	public static DrawPan displayArea;
 
 	//commandArea
 	JPanel commandArea;

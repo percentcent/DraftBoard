@@ -1,6 +1,10 @@
 package shape;
 
 import java.awt.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import listener.ColorChooser;
 
 /**
@@ -20,6 +24,35 @@ public class Text implements Shape {
         this.c=c;
         this.text = text;
     }
+    
+    public Text(FileReader reader) throws IOException {
+		char[] buf = new char[10];
+		reader.read(buf, 0,10);
+		this.c = new Color(Integer.parseInt(new String(buf)));
+				
+		reader.read(buf,0,10);
+		this.x1 = Integer.parseInt(new String(buf));
+		
+		reader.read(buf,0,10);
+		this.y1 = Integer.parseInt(new String(buf));
+		
+		reader.read(buf,0,10);
+		this.x2 = Integer.parseInt(new String(buf));
+		
+		reader.read(buf,0,10);
+		this.y2 = Integer.parseInt(new String(buf));
+		
+		this.text = "";
+		char[] newbuf = new char[1];
+		while(reader.read(newbuf,0,1)!=-1) {
+			String next = text + String.copyValueOf(newbuf);
+			this.text = next;
+		}
+	}
+    
+    public void output(PrintWriter writer){
+		writer.printf("T%010d%010d%010d%010d%010d%s\r\n", c.getRGB(),x1,y1,x2,y2, text);
+	}
 
     @Override
     public void drawShape(Graphics2D g2) {
