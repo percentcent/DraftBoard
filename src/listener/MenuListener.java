@@ -1,11 +1,11 @@
 package listener;
 
+import client.ClientManager;
+import file_operations.OpenFile;
+import file_operations.SaveFile;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import file_operations.SaveFile;
-import file_operations.OpenFile;
-import client.ClientManager;
 
 public class MenuListener implements ActionListener {
 	
@@ -38,7 +38,9 @@ public class MenuListener implements ActionListener {
 		if(e.getActionCommand().equals("New")) {
 			haveSaved=false;
 			ClientManager.shapes.clear();
+			System.out.println(ClientManager.shapes.size());
 			ClientManager.displayArea.repaint();
+
 		}
 		else if(e.getActionCommand().equals("Save As")) {
 			saveInstance.saveAs();

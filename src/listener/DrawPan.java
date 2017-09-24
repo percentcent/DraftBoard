@@ -4,7 +4,7 @@ import client.ClientManager;
 import shape.*;
 import shape.Rectangle;
 import shape.Shape;
-import listener.EraserPanel;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -45,10 +45,7 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		super.paintComponent(graphics);
 		Graphics graph = graphics;
 		Graphics2D g = (Graphics2D) graph;
-		for (Shape shape: ClientManager.shapes)
-		{
-			shape.drawShape(g);
-		}
+
 
 		switch(ClientManager.type)
 		{
@@ -86,6 +83,11 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 
 		}
 
+
+		for (Shape shape: ClientManager.shapes)
+		{
+			shape.drawShape(g);
+		}
 
 
 	}
@@ -136,9 +138,15 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				break;
 			case 5:
 				String inputValue = JOptionPane.showInputDialog("Please input a value");
-				String text = inputValue;
-				ClientManager.shapes.add(new Text(startX, endX, startY, endY, ColorChooser.color,text));
-				break;
+				if(inputValue.length() == 0)
+				{
+					break;
+				}
+				else
+				{
+					ClientManager.shapes.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
+					break;
+				}
 			case 6:
 				ArrayList<Point> erapoints = new ArrayList<Point>();
 				for (int i = 0; i < points.size() - 1 ; i ++)
@@ -149,6 +157,7 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
 				break;
 		}
+
 		repaint();
 
 	}

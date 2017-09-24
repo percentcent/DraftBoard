@@ -1,19 +1,32 @@
 package client;
 
 import listener.DrawPan;
-import shape.Shape;
 import listener.Menu;
+import shape.Shape;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.*;
-import javax.swing.JMenuBar; 
 
 public class ClientManager extends JFrame {
 	public static List<Shape> shapes;
+	private String username;
+    public  List<String> user = new ArrayList<>();
 
-	//DisplayArea
+    public List<String> getUser() {
+        return user;
+    }
+
+    public void setUser(List<String> user) {
+        this.user = user;
+    }
+
+    //DisplayArea
 	public static DrawPan displayArea;
 
 	//commandArea
@@ -36,6 +49,7 @@ public class ClientManager extends JFrame {
 	public static int type = FREE;
 
 	public ClientManager() {
+		username = "Han3";
 		shapes = new ArrayList<Shape>();
 		this.setLayout(new FlowLayout());
 		this.setTitle("MyWriteBoard");
@@ -43,9 +57,6 @@ public class ClientManager extends JFrame {
 		displayArea = new DrawPan();//initialize our canvas
 		commandArea = new CommandArea();//initialize out command area
 		menu = new Menu();
-//		JMenu file = new JMenu("File");
-//		menuBar.add(file);
-        //displayArea.setShape("freehand");
 		this.add(commandArea);
 		this.add(displayArea);
 		setJMenuBar(menu);
@@ -59,7 +70,7 @@ public class ClientManager extends JFrame {
 		});
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RemoteException, NotBoundException {
 		new ClientManager();
 	}
 }
