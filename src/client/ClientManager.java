@@ -2,7 +2,7 @@ package client;
 
 import listener.DrawPan;
 import listener.Menu;
-import shape.Shape;
+import Shape.Shape;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +37,9 @@ public class ClientManager extends JFrame {
 	
 	//Menu Bar
 	Menu menu;
+	
+	//ChatArea
+	JPanel chatArea;
 
 	/*Define shape types*/
 	public final static int LINE = 0;
@@ -53,13 +56,15 @@ public class ClientManager extends JFrame {
 		shapes = new ArrayList<Shape>();
 		this.setLayout(new FlowLayout());
 		this.setTitle("MyWriteBoard");
-		this.setSize(900, 680);
+		this.setSize(1170, 680);
 		displayArea = new DrawPan();//initialize our canvas
 		commandArea = new CommandArea();//initialize out command area
 		menu = new Menu();
+		chatArea = new ChatArea();
 		this.add(commandArea);
 		this.add(displayArea);
 		setJMenuBar(menu);
+		this.add(chatArea);
 		this.setVisible(true);//show the Window
 		
 		addWindowListener(new WindowAdapter() {

@@ -21,7 +21,7 @@ public class CommandArea extends JPanel {
 
     public CommandArea() {
         this.setBorder(new TitledBorder("Command Area"));
-        Dimension d = new Dimension(250, 600);
+        Dimension d = new Dimension(250, 620);
         this.setPreferredSize(d);
         this.setLayout(new GridLayout(4, 1));
 
