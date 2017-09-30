@@ -39,7 +39,7 @@ public class ClientManager extends JFrame {
 	Menu menu;
 	
 	//ChatArea
-	JPanel chatArea;
+	public JPanel chatArea;
 
 	/*Define shape types*/
 	public final static int LINE = 0;
@@ -76,7 +76,7 @@ public class ClientManager extends JFrame {
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {
-		new ClientManager();
+		ClientManager cm = new ClientManager();
 	}
 }
 

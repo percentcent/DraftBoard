@@ -1,9 +1,9 @@
 package listener;
 
 import client.ClientManager;
-import shape.*;
-import shape.Rectangle;
-import shape.Shape;
+import Shape.*;
+import Shape.Rectangle;
+import Shape.Shape;
 
 import javax.swing.*;
 import javax.swing.border.Border;
