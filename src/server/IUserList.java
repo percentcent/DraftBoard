@@ -1,11 +1,11 @@
 package server;
 
+import remote.Client;
+import remote.UserList;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-
-import remote.Client;
-import remote.UserList;
 
 /**
  * Created by hasee on 2017/9/21.
@@ -22,11 +22,19 @@ public class IUserList extends UnicastRemoteObject implements UserList {
 
     @Override
     public void addClient(Client c, String name) throws RemoteException {
-        if(!clients.contains(c))
+        if(!clients.contains(c)&&clients.size() ==0)
+        {
+            clients.add(c);
+            c.setUsername(name);
+            username.add(name +"(manager)");
+            broadcast();
+        }
+        else if(!clients.contains(c))
         {
             clients.add(c);
             c.setUsername(name);
             username.add(name);
+            broadcast();
         }
     }
 
@@ -50,7 +58,14 @@ public class IUserList extends UnicastRemoteObject implements UserList {
 		return clients.size();
 	}
 
-
+    @Override
+    public void broadcast() throws RemoteException{
+        // TODO Auto-generated method stub
+        for(int i = 0; i < clients.size(); i++) {
+            Client c = clients.get(i);
+            c.receiveUserList(username);
+        }
+    }
 
 
 }

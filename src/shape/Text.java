@@ -1,11 +1,11 @@
-package Shape;
+package shape;
+
+import listener.ColorChooser;
 
 import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import listener.ColorChooser;
 
 /**
  * Created by hasee on 2017/9/15.

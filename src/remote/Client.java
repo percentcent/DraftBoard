@@ -2,7 +2,6 @@ package remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,4 +11,5 @@ public interface Client extends Remote {
 	public void setUsername(String s) throws RemoteException;
 	public void receiveMsg(List<String> msgs) throws RemoteException;
 	public void initialMsgLst(List<String> list) throws RemoteException;
+	public void receiveUserList(List<String> userList) throws RemoteException;
 }

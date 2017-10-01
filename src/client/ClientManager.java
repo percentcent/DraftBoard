@@ -2,7 +2,7 @@ package client;
 
 import listener.DrawPan;
 import listener.Menu;
-import Shape.Shape;
+import shape.Shape;
 
 import javax.swing.*;
 import java.awt.*;

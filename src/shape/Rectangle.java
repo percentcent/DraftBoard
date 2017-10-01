@@ -1,4 +1,4 @@
-package Shape;
+package shape;
 
 import java.awt.*;
 import java.io.FileReader;

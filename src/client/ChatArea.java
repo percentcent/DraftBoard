@@ -1,21 +1,14 @@
 package client;
 
-import java.awt.*;
-import java.awt.List;
-import java.util.ArrayList;
-import java.util.*;
-
-import javax.swing.DefaultListModel;
-import javax.swing.border.TitledBorder;
-
-import com.sun.xml.internal.ws.api.message.Message;
+import listener.ListenForBtnSend;
 
 import javax.swing.*;
-import listener.ListenForBtnSend;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 
 public class ChatArea extends JPanel{
 	JScrollPane spnlMessage;
-	JList lstMessages;
+	JList lstMessages,lstUsernames;
 	public static JTextArea txtInput;
 	
 	public ChatArea() {
@@ -24,7 +17,7 @@ public class ChatArea extends JPanel{
         this.setPreferredSize(d);
         this.setLayout(new FlowLayout());
       	
-      	JList lstUsernames = new JList();
+      	lstUsernames = new JList();
       	lstUsernames.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane spnlUserList = new JScrollPane(lstUsernames);
         spnlUserList.setPreferredSize(new Dimension(230, 120));
@@ -63,4 +56,6 @@ public class ChatArea extends JPanel{
 	public void setMsgList(java.util.List<String> msgs) {
 		lstMessages.setListData(msgs.toArray());
 	}
+
+    public void setUserList(java.util.List<String> userList){lstUsernames.setListData(userList.toArray());}
 }

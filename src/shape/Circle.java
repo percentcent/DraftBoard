@@ -1,12 +1,12 @@
-package Shape;
+package shape;
+
+import listener.ColorChooser;
+import listener.WidthPanel;
 
 import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import listener.WidthPanel;
-import listener.ColorChooser;
 
 public class Circle implements Shape {
 	
