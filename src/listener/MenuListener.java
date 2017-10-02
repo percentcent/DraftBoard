@@ -6,6 +6,7 @@ import file_operations.SaveFile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class MenuListener implements ActionListener {
 	
@@ -22,7 +23,10 @@ public class MenuListener implements ActionListener {
 		
 		if(e.getActionCommand().equals("Save")) {
 			if(haveSaved==false) {
-				saveInstance.saveAs();
+				try {
+					saveInstance.saveAs();
+				} catch (IOException e1) {
+				}
 			} else {
 				saveInstance.save();
 			}
@@ -39,11 +43,16 @@ public class MenuListener implements ActionListener {
 			haveSaved=false;
 			ClientManager.shapes.clear();
 			System.out.println(ClientManager.shapes.size());
+			ClientManager.displayArea.removeAll();
+			ClientManager.displayArea.revalidate();
 			ClientManager.displayArea.repaint();
 
 		}
 		else if(e.getActionCommand().equals("Save As")) {
-			saveInstance.saveAs();
+			try {
+				saveInstance.saveAs();
+			} catch (IOException e1) {
+			}
 			if(saveInstance.currentFile!=null){
 				haveSaved=true;
 			}

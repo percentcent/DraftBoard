@@ -1,9 +1,12 @@
 package file_operations;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -15,6 +18,7 @@ import shape.Line;
 import shape.Oval;
 import shape.Rectangle;
 import shape.Text;
+import shape.Image;
 
 import client.ClientManager;
 
@@ -25,13 +29,36 @@ public class OpenFile {
 	private FileReader reader;
 	
 	public OpenFile(SaveFile saveInstance) {
+		FileNameExtensionFilter txt = new FileNameExtensionFilter("TXT", "txt");
+		FileNameExtensionFilter jpg = new FileNameExtensionFilter("JPEG", "jpg");
+		FileNameExtensionFilter png = new FileNameExtensionFilter("PNG", "png");
+		
 		jFileChooser = new JFileChooser();
 		jFileChooser.setCurrentDirectory(null);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "txt");
-		jFileChooser.setFileFilter(filter);
+		jFileChooser.addChoosableFileFilter(txt);
+		jFileChooser.addChoosableFileFilter(png);
+		jFileChooser.addChoosableFileFilter(jpg);
 		jFileChooser.showOpenDialog(null);
 		
 		ClientManager.shapes.clear();
+		ClientManager.displayArea.removeAll();
+		
+		String filePath = jFileChooser.getSelectedFile().getAbsolutePath();
+		if(filePath.endsWith(".txt")) {
+			txtOpen(jFileChooser);
+		}
+		else if(filePath.endsWith(".jpg")) {
+			jpgOpen(jFileChooser);
+		} else if(filePath.endsWith(".png")) {
+			pngOpen(jFileChooser);
+		}
+		
+		JOptionPane.showMessageDialog(null, "Successfully Opened!", "Message", 1);	
+		saveInstance.currentFile = jFileChooser.getSelectedFile();
+			
+	}
+	
+	private void txtOpen(JFileChooser jFileChooser) {
 		try {
 			reader = new FileReader(jFileChooser.getSelectedFile());
 			while(reader.ready()) {
@@ -57,17 +84,31 @@ public class OpenFile {
 				case 'T':
 					ClientManager.shapes.add(new Text(reader));
 					break;
+				case 'I':
+					ClientManager.shapes.add(new Image(reader));
+					break;
 				}
 			}
 			reader.close();
-			JOptionPane.showMessageDialog(null, "Successfully Opened!", "Message", 1);
-			
-			saveInstance.currentFile = jFileChooser.getSelectedFile();
-			
 		} catch(FileNotFoundException e) {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void jpgOpen(JFileChooser jFileChooser) {
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(jFileChooser.getSelectedFile());
+		} catch (IOException e) {
+		}
+		Graphics g = ClientManager.displayArea.getGraphics();
+		ClientManager.shapes.add(new Image(image));
+//		g.drawImage(image, 0,0, null);
+	}
+	
+	private void pngOpen(JFileChooser jFileChooser) {
+		
 	}
 
 }
