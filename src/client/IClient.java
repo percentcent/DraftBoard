@@ -5,6 +5,7 @@ import remote.Client;
 import remote.MessageList;
 import remote.UserList;
 
+import javax.swing.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -48,6 +49,21 @@ public class IClient extends UnicastRemoteObject implements Client {
         ((ChatArea) clientManager.chatArea).setUserList(userList);
     }
 
+    public void initialUserLst(List<String> userList) {
+        ((ChatArea) clientManager.chatArea).setUserList(userList);
+    }
+
+    @Override
+    public int permit() throws RemoteException {
+        int res = JOptionPane.showConfirmDialog(clientManager, "A new user want join ", "new user", JOptionPane.YES_NO_OPTION);
+        System.out.println(res);
+        return res;
+    }
+    @Override
+    public void reject() throws RemoteException {
+        JOptionPane.showMessageDialog(clientManager, "rejected by manager ", "fail to join ", JOptionPane.ERROR_MESSAGE);
+        System.exit(0);
+    }
     public static void main(String[] args) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry("localhost");
         MessageList msgManager = (MessageList)registry.lookup("MsgManager");
@@ -55,5 +71,6 @@ public class IClient extends UnicastRemoteObject implements Client {
         Client client = new IClient(msgManager, userManager);
         userManager.addClient(client,"han1");
         client.initialMsgLst(msgManager.getList());
+        client.initialUserLst(userManager.getList());
     }
 }
