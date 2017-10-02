@@ -6,6 +6,7 @@ import remote.UserList;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hasee on 2017/9/21.
@@ -29,12 +30,20 @@ public class IUserList extends UnicastRemoteObject implements UserList {
             username.add(name +"(manager)");
             broadcast();
         }
+
         else if(!clients.contains(c))
         {
-            clients.add(c);
-            c.setUsername(name);
-            username.add(name);
-            broadcast();
+            if(manageAdd() == 0)
+                {
+                    clients.add(c);
+                    c.setUsername(name);
+                    username.add(name);
+                    broadcast();
+                }
+            else
+                {
+                    c.reject();
+                }
         }
     }
 
@@ -67,5 +76,15 @@ public class IUserList extends UnicastRemoteObject implements UserList {
         }
     }
 
+    @Override
+    public List<String> getList() throws RemoteException {
+        return username;
+    }
+
+    @Override
+    public int manageAdd() throws RemoteException{
+        Client c = clients.get(0);
+        return c.permit();
+    }
 
 }
