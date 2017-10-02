@@ -104,11 +104,16 @@ public class OpenFile {
 		}
 		Graphics g = ClientManager.displayArea.getGraphics();
 		ClientManager.shapes.add(new Image(image));
-//		g.drawImage(image, 0,0, null);
 	}
 	
 	private void pngOpen(JFileChooser jFileChooser) {
-		
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(jFileChooser.getSelectedFile());
+		} catch (IOException e) {
+		}
+		Graphics g = ClientManager.displayArea.getGraphics();
+		ClientManager.shapes.add(new Image(image));
 	}
 
 }
