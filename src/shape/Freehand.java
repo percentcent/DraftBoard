@@ -1,3 +1,4 @@
+
 package shape;
 
 import java.awt.*;
@@ -5,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
+import java.io.*;
 import listener.WidthPanel;
 import listener.ColorChooser;
 public class Freehand implements Shape {
@@ -24,7 +25,7 @@ public class Freehand implements Shape {
 
 	}
 	
-	  public Freehand(FileReader reader) throws IOException {
+	  public Freehand(BufferedReader reader) throws IOException {
 			char[] buf = new char[10];
 			
 			reader.read(buf, 0,10);

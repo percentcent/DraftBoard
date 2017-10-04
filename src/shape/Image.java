@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.io.*;
 import javax.imageio.ImageIO;
 
 public class Image implements Shape {
@@ -14,15 +14,18 @@ public class Image implements Shape {
 	private BufferedImage image;
 	private String filePath;
 	
-	public Image(BufferedImage image) {
+	public Image(BufferedImage image,String filePath) {
 		this.image=image;
+		this.filePath = filePath;
 	}
 	
-	public Image(FileReader reader) throws IOException {
-		char[] buf = new char[100];
-		reader.read(buf, 0,100);
+	public Image(BufferedReader reader) throws IOException {
+		String buf = reader.readLine();
+		System.out.println(buf);
 		File file = new File(new String(buf));
 		this.image = ImageIO.read(file);
+		//this.filePath=String.valueOf(buf);
+		this.filePath=buf;
 	}
 
 	@Override

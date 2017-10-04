@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.awt.Graphics2D;
 import listener.EraserPanel;
 import listener.WidthPanel;
+import java.io.*;
 
 public class Eraser implements Shape{
 	
@@ -26,7 +27,7 @@ public class Eraser implements Shape{
 
 	}
 	
-	public Eraser(FileReader reader) throws IOException {
+	public Eraser(BufferedReader reader) throws IOException {
 		char[] buf = new char[10];
 		
 		reader.read(buf, 0,10);

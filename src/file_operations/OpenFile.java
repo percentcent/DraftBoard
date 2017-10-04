@@ -19,6 +19,7 @@ import shape.Oval;
 import shape.Rectangle;
 import shape.Text;
 import shape.Image;
+import java.io.*;
 
 import client.ClientManager;
 
@@ -26,7 +27,8 @@ public class OpenFile {
 	
 	private JFileChooser jFileChooser;
 	private FileNameExtensionFilter filter;
-	private FileReader reader;
+	private FileReader filereader;
+	private String filePath;
 	
 	public OpenFile(SaveFile saveInstance) {
 		FileNameExtensionFilter txt = new FileNameExtensionFilter("TXT", "txt");
@@ -43,7 +45,7 @@ public class OpenFile {
 		ClientManager.shapes.clear();
 		ClientManager.displayArea.removeAll();
 		
-		String filePath = jFileChooser.getSelectedFile().getAbsolutePath();
+		filePath = jFileChooser.getSelectedFile().getAbsolutePath();
 		if(filePath.endsWith(".txt")) {
 			txtOpen(jFileChooser);
 		}
@@ -60,7 +62,8 @@ public class OpenFile {
 	
 	private void txtOpen(JFileChooser jFileChooser) {
 		try {
-			reader = new FileReader(jFileChooser.getSelectedFile());
+			filereader = new FileReader(jFileChooser.getSelectedFile());
+			BufferedReader reader = new BufferedReader(filereader);
 			while(reader.ready()) {
 				switch(reader.read()) {
 				case 'L':
@@ -103,7 +106,7 @@ public class OpenFile {
 		} catch (IOException e) {
 		}
 		Graphics g = ClientManager.displayArea.getGraphics();
-		ClientManager.shapes.add(new Image(image));
+		ClientManager.shapes.add(new Image(image,filePath));
 	}
 	
 	private void pngOpen(JFileChooser jFileChooser) {
@@ -113,7 +116,7 @@ public class OpenFile {
 		} catch (IOException e) {
 		}
 		Graphics g = ClientManager.displayArea.getGraphics();
-		ClientManager.shapes.add(new Image(image));
+		ClientManager.shapes.add(new Image(image,filePath));
 	}
 
 }

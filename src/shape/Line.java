@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.io.*;
 public class Line implements Shape {
 	
     int x1, y1,x2, y2;
@@ -22,7 +22,7 @@ public class Line implements Shape {
         this.width=w;
     }
     
-    public Line(FileReader reader) throws IOException {
+    public Line(BufferedReader reader) throws IOException {
 		char[] buf = new char[10];
 		reader.read(buf, 0,10);
 		this.c = new Color(Integer.parseInt(new String(buf)));
