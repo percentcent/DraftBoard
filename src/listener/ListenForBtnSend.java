@@ -11,7 +11,7 @@ public class ListenForBtnSend implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			IClient.msgManager.add(IClient.username + ": " + ChatArea.txtInput.getText());
+			IClient.msgManager.add(IClient.username +"("+IClient.userId +")"+": " + ChatArea.txtInput.getText());
 			ChatArea.txtInput.setText("");
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block

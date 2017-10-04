@@ -15,5 +15,7 @@ public interface Client extends Remote {
 	public void initialUserLst(List<String> list) throws RemoteException;
 	public int permit() throws RemoteException;
 	public void reject() throws RemoteException;
-
+	public void kickedOut() throws RemoteException;
+	public void getUserId(int a) throws RemoteException;
 }
+

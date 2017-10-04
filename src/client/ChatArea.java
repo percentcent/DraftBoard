@@ -2,6 +2,8 @@ package client;
 
 //import listener.ListenForBtnSend;
 
+import listener.ListenForBtnSend;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -44,10 +46,9 @@ public class ChatArea extends JPanel{
         JButton bntSendMsg = new JButton();
         bntSendMsg.setText("Send");
         bntSendMsg.setPreferredSize(new Dimension(220, 25));
-//        bntSendMsg.addActionListener(new ListenForBtnSend());
+        bntSendMsg.addActionListener(new ListenForBtnSend());
         pnlSendMsg.add(spnlInput);
         pnlSendMsg.add(bntSendMsg);
-        
         this.add(spnlUserList);
         this.add(spnlMessage);
         this.add(pnlSendMsg);

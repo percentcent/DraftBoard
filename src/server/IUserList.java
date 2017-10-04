@@ -27,7 +27,7 @@ public class IUserList extends UnicastRemoteObject implements UserList {
         {
             clients.add(c);
             c.setUsername(name);
-            username.add(name +"(manager)");
+            username.add(name +"(0: manager)");
             broadcast();
         }
 
@@ -37,8 +37,10 @@ public class IUserList extends UnicastRemoteObject implements UserList {
                 {
                     clients.add(c);
                     c.setUsername(name);
-                    username.add(name);
+                    int id =clients.indexOf(c);
+                    username.add(name + "(" + id + ")");
                     broadcast();
+                    sendUserId(id,c);
                 }
             else
                 {
@@ -48,7 +50,24 @@ public class IUserList extends UnicastRemoteObject implements UserList {
     }
 
     @Override
-    public void removeClient(Client c, String msg) throws RemoteException {
+    public void removeClient(Client c) throws RemoteException {
+        if(clients.contains(c))
+        {
+            username.remove(clients.indexOf(c));
+            clients.remove(c);
+            broadcast();
+        }
+
+    }
+
+    public void kickOutClient(Client c) throws RemoteException {
+        if(clients.contains(c))
+        {
+            clients.remove(c);
+            username.remove(clients.indexOf(c));
+            c.kickedOut();
+            broadcast();
+        }
 
     }
 
@@ -85,6 +104,11 @@ public class IUserList extends UnicastRemoteObject implements UserList {
     public int manageAdd() throws RemoteException{
         Client c = clients.get(0);
         return c.permit();
+    }
+    @Override
+    public void sendUserId(int a,Client c) throws RemoteException
+    {
+        c.getUserId(a);
     }
 
 }
