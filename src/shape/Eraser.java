@@ -44,6 +44,9 @@ public class Eraser implements Shape{
 			int newy = Integer.parseInt(new String(y));
 			Point newpoint = new Point(newx,newy);
 			points.add(newpoint);
+			if(reader.read()=='.'){
+				break;
+			}
 		}
 	}
 	
@@ -69,8 +72,13 @@ public class Eraser implements Shape{
 
 	public void output(PrintWriter writer){
 		writer.printf("E%010d%010d", c.getRGB(),width);
-		for(Point p : points) {
-			writer.printf("%010d%010d", (int)p.getX(),(int)p.getY());
+		for(int i=0; i<points.size();i++) {
+			writer.printf("%010d%010d", (int)points.get(i).getX(),(int)points.get(i).getY());
+			if(i!=points.size()-1){
+				writer.printf(",");
+			} else {
+				writer.printf(".");
+			}
 		}
 		writer.printf("\r\n");
 	}
