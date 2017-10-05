@@ -1,17 +1,12 @@
 package shape;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.io.FileReader;
+import listener.EraserPanel;
+
+import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.awt.BasicStroke;
 import java.util.ArrayList;
-import java.awt.Graphics2D;
-import listener.EraserPanel;
-import listener.WidthPanel;
-import java.io.*;
 
 public class Eraser implements Shape{
 	
@@ -65,7 +60,7 @@ public class Eraser implements Shape{
 			y2 = (int)points.get(j+1).getY();
 			g2.drawLine(x1, y1, x2, y2);
 		}
-		
+		g2.setColor(Color.white);
       	g2.setStroke(new BasicStroke(EraserPanel.width));
 
 	}

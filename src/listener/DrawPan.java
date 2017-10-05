@@ -42,26 +42,38 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 	{
 		int x1 = startX;
 		int y1 = startY;
-		super.paintComponent(graphics);
-		Graphics graph = graphics;
-		Graphics2D g = (Graphics2D) graph;
+		Graphics2D g = (Graphics2D) graphics;
 
+		super.paintComponent(g);
+		for (Shape shape: ClientManager.shapes)
+		{
+			shape.drawShape(g);
+		}
 
 		switch(ClientManager.type)
 		{
 			case 0 :
+				g.setStroke(new BasicStroke(WidthPanel.width));
+				g.setColor(ColorChooser.color);
 				g.drawLine(startX, startY, endX, endY);
 				break;
 			case 1 :
+				g.setStroke(new BasicStroke(WidthPanel.width));
+				g.setColor(ColorChooser.color);
 				g.drawOval(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startX - endX));
 				break;
 			case 2 :
+				g.setStroke(new BasicStroke(WidthPanel.width));
+				g.setColor(ColorChooser.color);
 				g.drawRect(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startY - endY));
 				break;
 			case 3 :
+				g.setStroke(new BasicStroke(WidthPanel.width));
+				g.setColor(ColorChooser.color);
 				g.drawOval(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startY - endY));
 				break;
 			case 4:
+
 				g.setStroke(new BasicStroke(WidthPanel.width));
 				g.setColor(ColorChooser.color);
 		
@@ -75,19 +87,15 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				g.setColor(Color.white);
 				for (int i = 0;i < points.size() -1;i++)
 				{
-	
 					g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
 				}
 	
 				break;
 
+
 		}
 
 
-		for (Shape shape: ClientManager.shapes)
-		{
-			shape.drawShape(g);
-		}
 
 
 	}
@@ -159,6 +167,7 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		}
 
 		repaint();
+
 
 	}
 

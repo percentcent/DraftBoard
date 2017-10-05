@@ -6,6 +6,8 @@ import shape.Shape;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -65,12 +67,12 @@ public class ClientManager extends JFrame {
 		this.add(chatArea);
 		this.setVisible(true);//show the Window
 		
-//		addWindowListener(new WindowAdapter() {
-//		public void windowClosing(WindowEvent e) {
-//			System.out.println("Exit when Closed event");
-//			System.exit(0);
-//			}
-//		});
+		addWindowListener(new WindowAdapter() {
+		public void windowClosing(WindowEvent e) {
+			System.out.println("Exit when Closed event");
+			System.exit(0);
+			}
+		});
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {

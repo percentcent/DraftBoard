@@ -4,10 +4,9 @@ import listener.ColorChooser;
 import listener.WidthPanel;
 
 import java.awt.*;
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.*;
 
 public class Circle implements Shape {
 	
@@ -54,7 +53,6 @@ public class Circle implements Shape {
 	{
 		g2.setColor(c);
 		g2.setStroke(new BasicStroke(width));
-		
 		g2.drawOval(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(x1 - x2));
 		g2.setColor(ColorChooser.color);
 		g2.setStroke(new BasicStroke(WidthPanel.width));
