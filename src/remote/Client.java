@@ -17,5 +17,6 @@ public interface Client extends Remote {
 	public void reject() throws RemoteException;
 	public void kickedOut() throws RemoteException;
 	public void getUserId(int a) throws RemoteException;
+	public void managerLeaving() throws RemoteException;
 }
 
