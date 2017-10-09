@@ -105,23 +105,32 @@ public class IClient extends UnicastRemoteObject implements Client {
         client.initialUserLst(userManager.getList());
         clientManager.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-            	if(isManager==true){
+            	while(isManager == true){
                 	try {
 						userManager.closeBoard();
 						System.out.println("CLOSING BOARD!");
+						if(userManager.size() == 1)
+                        {
+                            userManager.removeClient(client);
+                            System.out.println("try");
+                            break;
+                        }
 					} catch (RemoteException e1) {
 						e1.printStackTrace();
 					}
                 }
-            	
-                try {
-                    userManager.removeClient(client);
-                    System.out.println("try");
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
-                }
-           
-                
+                if(isManager == false)
+                    {
+                        try {
+                            userManager.removeClient(client);
+                            System.out.println("try");
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+
+
+
                 System.out.println("Exit when Closed event");
                 System.exit(0);
             }
