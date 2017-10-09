@@ -115,8 +115,8 @@ public class IUserList extends UnicastRemoteObject implements UserList {
     public void closeBoard() throws RemoteException {
 		for(int i=1; i<size(); i++) {
 			Client c = get(i);
-			c.managerLeaving();
 			removeClient(c);
+			c.managerLeaving();
 		}
     }
 

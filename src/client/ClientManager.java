@@ -69,12 +69,12 @@ public class ClientManager extends JFrame {
 		this.add(chatArea);
 		this.setVisible(true);//show the Window
 		
-		addWindowListener(new WindowAdapter() {
-		public void windowClosing(WindowEvent e) {
-			System.out.println("Exit when Closed event");
-			System.exit(0);
-			}
-		});
+//		addWindowListener(new WindowAdapter() {
+//		public void windowClosing(WindowEvent e) {
+//			System.out.println("Exit when Closed event");
+//			System.exit(0);
+//			}
+//		});
 	}
 	
 	public void becomeManager() {
