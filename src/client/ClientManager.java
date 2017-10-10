@@ -69,7 +69,7 @@ public class ClientManager extends JFrame {
 		
 		addWindowListener(new WindowAdapter() {
 		public void windowClosing(WindowEvent e) {
-			System.out.println("Exit when Closed event");
+			System.out.println("Exit.");
 			System.exit(0);
 			}
 		});
