@@ -33,13 +33,14 @@ public class IUserList extends UnicastRemoteObject implements UserList {
 
         else if(!clients.contains(c))
         {
-            if(manageAdd() == 0)
+            if(manageAdd(name) == 0)
                 {
                     clients.add(c);
                     c.setUsername(name);
                     int id =clients.indexOf(c);
                     username.add(name + "(" + id + ")");
                     broadcast();
+                    c.setActive();
                     sendUserId(id,c);
                 }
             else
@@ -101,9 +102,9 @@ public class IUserList extends UnicastRemoteObject implements UserList {
     }
 
     @Override
-    public int manageAdd() throws RemoteException{
+    public int manageAdd(String name) throws RemoteException{
         Client c = clients.get(0);
-        return c.permit();
+        return c.permit(name);
     }
     @Override
     public void sendUserId(int a,Client c) throws RemoteException
@@ -119,6 +120,11 @@ public class IUserList extends UnicastRemoteObject implements UserList {
 			c.managerLeaving();
 		}
 
+    }
+
+    @Override
+    public void setActive(Client c) throws RemoteException {
+        c.setActive();
     }
 
 }
