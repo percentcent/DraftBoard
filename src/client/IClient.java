@@ -29,7 +29,7 @@ public class IClient extends UnicastRemoteObject implements Client {
     public static int userId;
     public static MessageList msgManager;
     public static UserList userManager;
-
+    public static boolean isManager = false;
     
     public IClient(MessageList msgM, UserList userM) throws RemoteException, NotBoundException {
     		msgManager = msgM;
@@ -61,26 +61,32 @@ public class IClient extends UnicastRemoteObject implements Client {
 
     @Override
     public int permit() throws RemoteException {
-        int res = JOptionPane.showConfirmDialog(clientManager, "A new user want join ", "new user", JOptionPane.YES_NO_OPTION);
+        int res = JOptionPane.showConfirmDialog(clientManager, "A new user has requested to join. ", "New User Request", JOptionPane.YES_NO_OPTION);
         System.out.println(res);
         return res;
     }
     @Override
     public void reject() throws RemoteException {
-        JOptionPane.showMessageDialog(clientManager, "rejected by manager ", "fail to join ", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(clientManager, "Your request to join has been rejected by the Manager. ", "Failure to Join", JOptionPane.ERROR_MESSAGE);
         System.exit(0);
     }
 
     @Override
     public void kickedOut() throws RemoteException {
-        JOptionPane.showMessageDialog(clientManager, "kicked by manager ", "kicked ", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(clientManager, "You have been kicked by the Manager.", "Kicked ", JOptionPane.ERROR_MESSAGE);
         System.exit(0);
     }
 
     @Override
     public void getUserId(int a) throws RemoteException {
-        JOptionPane.showMessageDialog(clientManager, "your userid is " + a, "UserId ", JOptionPane.YES_NO_OPTION);
+        JOptionPane.showMessageDialog(clientManager, "Your userid is " + a, "UserId. ", JOptionPane.YES_NO_OPTION);
         setUserId(a);
+    }
+    
+    @Override
+    public void managerLeaving() throws RemoteException {
+    	JOptionPane.showMessageDialog(clientManager, "Manager has left, now exiting.", "Exiting ", JOptionPane.ERROR_MESSAGE);
+    	System.exit(0);
     }
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
@@ -92,17 +98,39 @@ public class IClient extends UnicastRemoteObject implements Client {
         if(userId == 0)
         {
             System.out.println("you are manager");
+            isManager=true;
+            clientManager.becomeManager();
         }
         client.initialMsgLst(msgManager.getList());
         client.initialUserLst(userManager.getList());
         clientManager.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                try {
-                    userManager.removeClient(client);
-                    System.out.println("try");
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
+            	while(isManager == true){
+                	try {
+						userManager.closeBoard();
+						System.out.println("CLOSING BOARD!");
+						if(userManager.size() == 1)
+                        {
+                            userManager.removeClient(client);
+                            System.out.println("try");
+                            break;
+                        }
+					} catch (RemoteException e1) {
+						e1.printStackTrace();
+					}
                 }
+                if(isManager == false)
+                    {
+                        try {
+                            userManager.removeClient(client);
+                            System.out.println("try");
+                        } catch (RemoteException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+
+
+
                 System.out.println("Exit when Closed event");
                 System.exit(0);
             }

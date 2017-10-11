@@ -63,8 +63,8 @@ public class IUserList extends UnicastRemoteObject implements UserList {
     public void kickOutClient(Client c) throws RemoteException {
         if(clients.contains(c))
         {
-            clients.remove(c);
             username.remove(clients.indexOf(c));
+            clients.remove(c);
             c.kickedOut();
             broadcast();
         }
@@ -109,6 +109,16 @@ public class IUserList extends UnicastRemoteObject implements UserList {
     public void sendUserId(int a,Client c) throws RemoteException
     {
         c.getUserId(a);
+    }
+    
+    @Override
+    public void closeBoard() throws RemoteException {
+		for(int i=1; i<clients.size(); i++) {
+			Client c = get(i);
+			removeClient(c);
+			c.managerLeaving();
+		}
+
     }
 
 }

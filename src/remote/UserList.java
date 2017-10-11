@@ -16,5 +16,5 @@ public interface UserList extends Remote {
     public int manageAdd() throws RemoteException;
     public void kickOutClient(Client c) throws RemoteException;
     public void sendUserId(int a,Client c) throws RemoteException;
-
+    public void closeBoard() throws RemoteException;
 }

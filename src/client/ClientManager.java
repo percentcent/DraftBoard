@@ -50,6 +50,8 @@ public class ClientManager extends JFrame {
 	public final static int TEXT = 5;
 	public final static int ERASER = 6;
 	public static int type = FREE;
+	
+	public boolean isManager;
 
 	public ClientManager() {
 		username = "Han3";
@@ -59,11 +61,11 @@ public class ClientManager extends JFrame {
 		this.setSize(1170, 680);
 		displayArea = new DrawPan();//initialize our canvas
 		commandArea = new CommandArea();//initialize out command area
-		menu = new Menu();
+//		menu = new Menu();
 		chatArea = new ChatArea();
 		this.add(commandArea);
 		this.add(displayArea);
-		setJMenuBar(menu);
+		
 		this.add(chatArea);
 		this.setVisible(true);//show the Window
 		
@@ -73,6 +75,12 @@ public class ClientManager extends JFrame {
 			System.exit(0);
 			}
 		});
+	}
+	
+	public void becomeManager() {
+		menu = new Menu();
+		setJMenuBar(menu);
+		validate(); 
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {

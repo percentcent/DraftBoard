@@ -57,7 +57,7 @@ public class MenuListener implements ActionListener {
 				haveSaved=true;
 			}
 		} else if(e.getActionCommand().equals("Exit")) {
-			System.exit(0);
+			
 		}
 		
 	}
