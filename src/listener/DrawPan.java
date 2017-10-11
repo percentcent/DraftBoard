@@ -10,7 +10,9 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DrawPan extends JPanel implements ActionListener, MouseListener,MouseMotionListener {
 
@@ -47,7 +49,8 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		super.paintComponent(g);
 		for (Shape shape: ClientManager.shapes)
 		{
-			shape.drawShape(g);
+				shape.drawShape(g);
+
 		}
 
 		switch(ClientManager.type)
@@ -124,15 +127,35 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		switch(ClientManager.type)
 		{
 			case 0:
+				try {
+					ClientManager.shapesList.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				ClientManager.shapes.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
 				break;
 			case 1 :
+				try {
+					ClientManager.shapesList.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				ClientManager.shapes.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
 				break;
 			case 2 :
+				try {
+					ClientManager.shapesList.add(new Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				ClientManager.shapes.add(new Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
 				break;
 			case 3 :
+				try {
+					ClientManager.shapesList.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				ClientManager.shapes.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
 				break;
 			case 4:
@@ -142,6 +165,11 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 					midpoints.add(points.get(i).getLocation());
 				}
 				actulpoints.add(midpoints);
+				try {
+					ClientManager.shapesList.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				ClientManager.shapes.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
 				break;
 			case 5:
@@ -152,6 +180,11 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				}
 				else
 				{
+					try {
+						ClientManager.shapesList.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
+					} catch (RemoteException e1) {
+						e1.printStackTrace();
+					}
 					ClientManager.shapes.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
 					break;
 				}
@@ -162,6 +195,11 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 					erapoints.add(points.get(i).getLocation());
 				}
 				erasepoints.add(erapoints);
+				try {
+					ClientManager.shapesList.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
 				break;
 		}
@@ -202,6 +240,16 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+
+	}
+
+	public void paintRmiShape(List<Shape> shapes) throws RemoteException {
+		ClientManager.shapes = shapes;
+		Graphics2D g = (Graphics2D) this.getGraphics();
+		for (Shape shape: shapes)
+		{
+			shape.drawShape(g);
+		}
 
 	}
 }

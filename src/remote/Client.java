@@ -1,5 +1,7 @@
 package remote;
 
+import shape.Shape;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -19,6 +21,7 @@ public interface Client extends Remote {
 	public void getUserId(int a) throws RemoteException;
 	public void managerLeaving() throws RemoteException;
 	public void setActive() throws RemoteException;
+	public void draw(List<Shape> shapes) throws RemoteException;
 
 }
 

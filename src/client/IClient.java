@@ -3,7 +3,9 @@ package client;
 
 import remote.Client;
 import remote.MessageList;
+import remote.ShapeList;
 import remote.UserList;
+import shape.Shape;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 public class IClient extends UnicastRemoteObject implements Client {
 	public static String username;
-    public static ClientManager clientManager = new ClientManager();
+    public static ClientManager clientManager;
     public static Waiting waiting = new Waiting();
 
 
@@ -37,11 +39,14 @@ public class IClient extends UnicastRemoteObject implements Client {
 
     public static MessageList msgManager;
     public static UserList userManager;
+    public static ShapeList shapeList;
     public static boolean isManager = false;
     
-    public IClient(MessageList msgM, UserList userM) throws RemoteException, NotBoundException {
+    public IClient(MessageList msgM, UserList userM,ShapeList shapeM) throws RemoteException, NotBoundException {
     		msgManager = msgM;
-        userManager = userM;
+            userManager = userM;
+            shapeList = shapeM;
+            clientManager = new ClientManager(shapeM);
     }
 
     public void setUsername(String s) throws RemoteException {
@@ -118,13 +123,21 @@ public class IClient extends UnicastRemoteObject implements Client {
         clientManager.setVisible(true);
     }
 
+    @Override
+    public void draw(List<Shape> shapes) throws RemoteException {
+        //clientManager.getDisplayArea().setShapes(shapes);
+        clientManager.getDisplayArea().paintRmiShape(shapes);
+    }
+
     public static void main(String[] args) throws RemoteException, NotBoundException {
-        clientManager.setVisible(false);
+
 
         Registry registry = LocateRegistry.getRegistry("localhost");
         MessageList msgManager = (MessageList)registry.lookup("MsgManager");
         UserList userManager = (UserList)registry.lookup("UserManager");
-        Client client = new IClient(msgManager, userManager);
+        ShapeList shapeManager = (ShapeList)registry.lookup("ShapeManager");
+        Client client = new IClient(msgManager, userManager,shapeManager);
+        clientManager.setVisible(false);
         userManager.addClient(client,"han2");
         if(userId == 0)
         {
