@@ -13,8 +13,10 @@ public interface UserList extends Remote {
     public int size() throws RemoteException;
     public void broadcast() throws RemoteException;
     public List<String> getList() throws RemoteException;
-    public int manageAdd() throws RemoteException;
+    public int manageAdd(String name) throws RemoteException;
     public void kickOutClient(Client c) throws RemoteException;
     public void sendUserId(int a,Client c) throws RemoteException;
     public void closeBoard() throws RemoteException;
+    public void setActive(Client c) throws RemoteException;
+
 }

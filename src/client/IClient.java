@@ -3,7 +3,9 @@ package client;
 
 import remote.Client;
 import remote.MessageList;
+import remote.ShapeList;
 import remote.UserList;
+import shape.Shape;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -20,20 +22,31 @@ import java.util.List;
  */
 public class IClient extends UnicastRemoteObject implements Client {
 	public static String username;
-    public static ClientManager clientManager = new ClientManager();
+    public static ClientManager clientManager;
+    public static Waiting waiting = new Waiting();
+
 
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
     public static int userId;
+
+
+    public void setMsgManager(MessageList msgManager) {
+        this.msgManager = msgManager;
+    }
+
     public static MessageList msgManager;
     public static UserList userManager;
+    public static ShapeList shapeList;
     public static boolean isManager = false;
     
-    public IClient(MessageList msgM, UserList userM) throws RemoteException, NotBoundException {
+    public IClient(MessageList msgM, UserList userM,ShapeList shapeM) throws RemoteException, NotBoundException {
     		msgManager = msgM;
-        userManager = userM;
+            userManager = userM;
+            shapeList = shapeM;
+            clientManager = new ClientManager(shapeM);
     }
 
     public void setUsername(String s) throws RemoteException {
@@ -60,8 +73,8 @@ public class IClient extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public int permit() throws RemoteException {
-        int res = JOptionPane.showConfirmDialog(clientManager, "A new user has requested to join. ", "New User Request", JOptionPane.YES_NO_OPTION);
+    public int permit(String username) throws RemoteException {
+        int res = JOptionPane.showConfirmDialog(clientManager, username + " has requested to join. ", "New User Request", JOptionPane.YES_NO_OPTION);
         System.out.println(res);
         return res;
     }
@@ -73,7 +86,7 @@ public class IClient extends UnicastRemoteObject implements Client {
 
     @Override
     public void kickedOut() throws RemoteException {
-        JOptionPane.showMessageDialog(clientManager, "You have been kicked by the Manager.", "Kicked ", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(clientManager, "You have been kicked by the Manager.", "Kicked ", JOptionPane.WARNING_MESSAGE);
         System.exit(0);
     }
 
@@ -85,21 +98,59 @@ public class IClient extends UnicastRemoteObject implements Client {
     
     @Override
     public void managerLeaving() throws RemoteException {
-    	JOptionPane.showMessageDialog(clientManager, "Manager has left, now exiting.", "Exiting ", JOptionPane.ERROR_MESSAGE);
-    	System.exit(0);
+        JOptionPane msg = new JOptionPane("Manager has left, now exiting", JOptionPane.WARNING_MESSAGE);
+        final JDialog dlg = msg.createDialog("Exiting");
+        dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                dlg.setVisible(false);
+            }
+        }).start();
+        dlg.setAlwaysOnTop(true);
+        dlg.setVisible(true);
+
+        System.exit(0);
+    }
+
+    @Override
+    public void setActive() throws RemoteException {
+        clientManager.setVisible(true);
+    }
+
+    @Override
+    public void draw(List<Shape> shapes) throws RemoteException {
+        //clientManager.getDisplayArea().setShapes(shapes);
+        clientManager.getDisplayArea().paintRmiShape(shapes);
     }
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
+
+
         Registry registry = LocateRegistry.getRegistry("localhost");
         MessageList msgManager = (MessageList)registry.lookup("MsgManager");
         UserList userManager = (UserList)registry.lookup("UserManager");
-        Client client = new IClient(msgManager, userManager);
+        ShapeList shapeManager = (ShapeList)registry.lookup("ShapeManager");
+        Client client = new IClient(msgManager, userManager,shapeManager);
+        clientManager.setVisible(false);
         userManager.addClient(client,"han2");
         if(userId == 0)
         {
             System.out.println("you are manager");
             isManager=true;
+            waiting.close();
+            client.setActive();
             clientManager.becomeManager();
+        }
+        else
+        {
+            waiting.close();
+            client.setActive();
         }
         client.initialMsgLst(msgManager.getList());
         client.initialUserLst(userManager.getList());

@@ -2,12 +2,10 @@ package client;
 
 import listener.DrawPan;
 import listener.Menu;
+import remote.ShapeList;
 import shape.Shape;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -15,6 +13,7 @@ import java.util.List;
 
 public class ClientManager extends JFrame {
 	public static List<Shape> shapes;
+	public static ShapeList shapesList;
 	private String username;
     public  List<String> user = new ArrayList<>();
 
@@ -53,28 +52,21 @@ public class ClientManager extends JFrame {
 	
 	public boolean isManager;
 
-	public ClientManager() {
+	public ClientManager(ShapeList shapeM) {
 		username = "Han3";
 		shapes = new ArrayList<Shape>();
+		shapesList = shapeM;
 		this.setLayout(new FlowLayout());
 		this.setTitle("MyWriteBoard");
-		this.setSize(1170, 680);
+		this.setSize(1170, 700);
 		displayArea = new DrawPan();//initialize our canvas
 		commandArea = new CommandArea();//initialize out command area
-//		menu = new Menu();
 		chatArea = new ChatArea();
 		this.add(commandArea);
 		this.add(displayArea);
-		
 		this.add(chatArea);
-		this.setVisible(true);//show the Window
-		
-		addWindowListener(new WindowAdapter() {
-		public void windowClosing(WindowEvent e) {
-			System.out.println("Exit.");
-			System.exit(0);
-			}
-		});
+		this.setVisible(true);
+
 	}
 	
 	public void becomeManager() {
@@ -83,8 +75,12 @@ public class ClientManager extends JFrame {
 		validate(); 
 	}
 
+	public static DrawPan getDisplayArea() {
+		return displayArea;
+	}
+
 	public static void main(String[] args) throws RemoteException, NotBoundException {
-		ClientManager cm = new ClientManager();
+		//ClientManager cm = new ClientManager();
 	}
 }
 
