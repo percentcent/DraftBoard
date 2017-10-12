@@ -2,6 +2,7 @@ package listener;
 
 import client.ClientManager;
 import shape.*;
+import shape.Image;
 import shape.Rectangle;
 import shape.Shape;
 
@@ -92,7 +93,6 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				{
 					g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
 				}
-	
 				break;
 
 
@@ -235,7 +235,17 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		{
 			points.add(new Point(endX,endY));
 		}
+
 		repaint();
+//		BufferedImage image = new BufferedImage(ClientManager.displayArea.getWidth(),
+//				ClientManager.displayArea.getHeight(),BufferedImage.TYPE_INT_RGB);
+//		Image image1 = new Image(image,null);
+//		try {
+//
+//			ClientManager.shapesList.castDraw(image1);
+//		} catch (RemoteException e1) {
+//			e1.printStackTrace();
+//		}
 	}
 
 	@Override
@@ -244,12 +254,20 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 	}
 
 	public void paintRmiShape(List<Shape> shapes) throws RemoteException {
+		repaint();
 		ClientManager.shapes = shapes;
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		for (Shape shape: shapes)
 		{
 			shape.drawShape(g);
 		}
+
+	}
+
+	public void drawImage(Image image) throws RemoteException {
+		repaint();
+		Graphics2D g = (Graphics2D) this.getGraphics();
+		g.drawImage(image.getImage(),0,0,this.getWidth(),this.getHeight(),this);
 
 	}
 }

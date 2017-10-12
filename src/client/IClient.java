@@ -5,6 +5,7 @@ import remote.Client;
 import remote.MessageList;
 import remote.ShapeList;
 import remote.UserList;
+import shape.Image;
 import shape.Shape;
 
 import javax.swing.*;
@@ -127,6 +128,13 @@ public class IClient extends UnicastRemoteObject implements Client {
     public void draw(List<Shape> shapes) throws RemoteException {
         //clientManager.getDisplayArea().setShapes(shapes);
         clientManager.getDisplayArea().paintRmiShape(shapes);
+    }
+
+    @Override
+    public void update(Image image) throws RemoteException {
+       //clientManager.setDisplayArea(drawPan);
+       //clientManager.getDisplayArea().drawImage(image);
+        System.out.println("Called");
     }
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
