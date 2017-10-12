@@ -130,6 +130,7 @@ public class IClient extends UnicastRemoteObject implements Client {
     public void draw(List<Shape> shapes) throws RemoteException {
         //clientManager.getDisplayArea().setShapes(shapes);
         clientManager.getDisplayArea().paintRmiShape(shapes);
+        clientManager.getDisplayArea().repaint();
     }
 
     @Override

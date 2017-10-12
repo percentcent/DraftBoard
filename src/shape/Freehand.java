@@ -1,14 +1,14 @@
 
 package shape;
 
+import listener.ColorChooser;
+import listener.WidthPanel;
+
 import java.awt.*;
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.io.*;
-import listener.WidthPanel;
-import listener.ColorChooser;
 public class Freehand implements Shape {
 	
 
@@ -38,6 +38,7 @@ public class Freehand implements Shape {
 			char[] y = new char[10];
 			this.points = new ArrayList<Point>();
 			while(reader.read(x,0,10)!=-1 && reader.read(y,0,10)!=-1) {
+
 				int newx = Integer.parseInt(new String(x));
 				int newy = Integer.parseInt(new String(y));
 				Point newpoint = new Point(newx,newy);

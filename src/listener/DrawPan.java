@@ -344,7 +344,7 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		repaint();
 		ClientManager.shapes = shapes;
 		Graphics2D g = (Graphics2D) this.getGraphics();
-		for (Shape shape: shapes)
+		for (Shape shape: ClientManager.shapes)
 		{
 			shape.drawShape(g);
 		}
@@ -355,6 +355,6 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		repaint();
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.drawImage(image.getImage(),0,0,this.getWidth(),this.getHeight(),this);
-
+		repaint();
 	}
 }

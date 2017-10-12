@@ -61,36 +61,44 @@ public class OpenFile {
 			while(reader.ready()) {
 				switch(reader.read()) {
 				case 'L':
-					ClientManager.shapesList.add(new Line(reader));
-					ClientManager.shapes.add(new Line(reader));
+					Line line = new Line(reader);
+					ClientManager.shapesList.add(line);
+					ClientManager.shapes.add(line);
 					break;
 				case 'C':
-					ClientManager.shapesList.add(new Circle(reader));
-					ClientManager.shapes.add(new Circle(reader));
+					Circle circle = new Circle(reader);
+					ClientManager.shapesList.add(circle);
+					ClientManager.shapes.add(circle);
 					break;
 				case 'E':
-					ClientManager.shapesList.add(new Eraser(reader));
-					ClientManager.shapes.add(new Eraser(reader));
+					Eraser eraser = new Eraser(reader);
+					ClientManager.shapesList.add(eraser);
+					ClientManager.shapes.add(eraser);
 					break;
 				case 'F':
-					ClientManager.shapesList.add(new Freehand(reader));
-					ClientManager.shapes.add(new Freehand(reader));
+					Freehand freehand = new Freehand(reader);
+					ClientManager.shapesList.add(freehand);
+					ClientManager.shapes.add(freehand);
 					break;
 				case 'O':
-					ClientManager.shapesList.add(new Oval(reader));
-					ClientManager.shapes.add(new Oval(reader));
+					Oval oval = new Oval(reader);
+					ClientManager.shapesList.add(oval);
+					ClientManager.shapes.add(oval);
 					break;
 				case 'R':
-					ClientManager.shapesList.add(new Rectangle(reader));
-					ClientManager.shapes.add(new Rectangle(reader));
+					Rectangle rectangle = new Rectangle(reader);
+					ClientManager.shapesList.add(rectangle);
+					ClientManager.shapes.add(rectangle);
 					break;
 				case 'T':
-					ClientManager.shapesList.add(new Text(reader));
-					ClientManager.shapes.add(new Text(reader));
+					Text text = new Text(reader);
+					ClientManager.shapesList.add(text);
+					ClientManager.shapes.add(text);
 					break;
 				case 'I':
-					ClientManager.shapesList.add(new Image(reader));
-					ClientManager.shapes.add(new Image(reader));
+					Image image = new Image(reader);
+					ClientManager.shapesList.add(image);
+					ClientManager.shapes.add(image);
 					break;
 				}
 			}
