@@ -1,5 +1,6 @@
 package remote;
 
+import shape.Image;
 import shape.Shape;
 
 import java.rmi.Remote;
@@ -14,4 +15,5 @@ public interface ShapeList extends Remote {
 	public void clear() throws RemoteException;
 	public Shape get(int i) throws RemoteException;
 	public int size() throws RemoteException;
+	public void updatePanel(Image image) throws RemoteException;
 }

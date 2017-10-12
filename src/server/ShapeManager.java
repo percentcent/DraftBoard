@@ -3,6 +3,7 @@ package server;
 import remote.Client;
 import remote.ShapeList;
 import remote.UserList;
+import shape.Image;
 import shape.Shape;
 
 import java.rmi.RemoteException;
@@ -56,5 +57,13 @@ public class ShapeManager extends UnicastRemoteObject implements ShapeList {
 	@Override
 	public int size() throws RemoteException {
 		return shapes.size();
+	}
+
+	@Override
+	public void updatePanel(Image image) throws RemoteException {
+		for(int i = 0; i < clients.size(); i++) {
+			Client c = clients.get(i);
+			c.update(image);
+		}
 	}
 }

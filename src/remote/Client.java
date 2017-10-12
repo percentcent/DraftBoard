@@ -1,5 +1,6 @@
 package remote;
 
+import shape.Image;
 import shape.Shape;
 
 import java.rmi.Remote;
@@ -22,6 +23,10 @@ public interface Client extends Remote {
 	public void managerLeaving() throws RemoteException;
 	public void setActive() throws RemoteException;
 	public void draw(List<Shape> shapes) throws RemoteException;
+	public void update(Image image) throws RemoteException;
 
+	public static void removeAll() throws RemoteException {
+
+	}
 }
 

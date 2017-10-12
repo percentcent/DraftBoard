@@ -2,7 +2,7 @@ package listener;
 
 import client.ClientManager;
 import shape.*;
-import shape.Rectangle;
+import shape.Image;
 import shape.Shape;
 
 import javax.swing.*;
@@ -92,7 +92,6 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				{
 					g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
 				}
-	
 				break;
 
 
@@ -122,89 +121,177 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		endX = e.getX();
-		endY = e.getY();
-		switch(ClientManager.type)
-		{
-			case 0:
-				try {
-					ClientManager.shapesList.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				ClientManager.shapes.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
-				break;
-			case 1 :
-				try {
-					ClientManager.shapesList.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				ClientManager.shapes.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-				break;
-			case 2 :
-				try {
-					ClientManager.shapesList.add(new Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				ClientManager.shapes.add(new Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-				break;
-			case 3 :
-				try {
-					ClientManager.shapesList.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				ClientManager.shapes.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-				break;
-			case 4:
-				ArrayList<Point> midpoints = new ArrayList<Point>();
-				for (int i = 0; i < points.size() - 1 ; i ++)
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				endX = e.getX();
+				endY = e.getY();
+				switch(ClientManager.type)
 				{
-					midpoints.add(points.get(i).getLocation());
+					case 0:
+						try {
+							ClientManager.shapesList.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+						ClientManager.shapes.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
+						break;
+					case 1 :
+						try {
+							ClientManager.shapesList.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+						ClientManager.shapes.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+						break;
+					case 2 :
+						try {
+							ClientManager.shapesList.add(new shape.Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+						ClientManager.shapes.add(new shape.Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+						break;
+					case 3 :
+						try {
+							ClientManager.shapesList.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+						ClientManager.shapes.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+						break;
+					case 4:
+						ArrayList<Point> midpoints = new ArrayList<Point>();
+						for (int i = 0; i < points.size() - 1 ; i ++)
+						{
+							midpoints.add(points.get(i).getLocation());
+						}
+						actulpoints.add(midpoints);
+						try {
+							ClientManager.shapesList.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+						ClientManager.shapes.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
+						break;
+					case 5:
+						String inputValue = JOptionPane.showInputDialog("Please input a value");
+						if(inputValue.length() == 0)
+						{
+							break;
+						}
+						else
+						{
+							try {
+								ClientManager.shapesList.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
+							} catch (RemoteException e1) {
+								e1.printStackTrace();
+							}
+							ClientManager.shapes.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
+							break;
+						}
+					case 6:
+						ArrayList<Point> erapoints = new ArrayList<Point>();
+						for (int i = 0; i < points.size() - 1 ; i ++)
+						{
+							erapoints.add(points.get(i).getLocation());
+						}
+						erasepoints.add(erapoints);
+						try {
+							ClientManager.shapesList.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+						ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
+						break;
 				}
-				actulpoints.add(midpoints);
-				try {
-					ClientManager.shapesList.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				ClientManager.shapes.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
-				break;
-			case 5:
-				String inputValue = JOptionPane.showInputDialog("Please input a value");
-				if(inputValue.length() == 0)
-				{
-					break;
-				}
-				else
-				{
-					try {
-						ClientManager.shapesList.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
-					} catch (RemoteException e1) {
-						e1.printStackTrace();
-					}
-					ClientManager.shapes.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
-					break;
-				}
-			case 6:
-				ArrayList<Point> erapoints = new ArrayList<Point>();
-				for (int i = 0; i < points.size() - 1 ; i ++)
-				{
-					erapoints.add(points.get(i).getLocation());
-				}
-				erasepoints.add(erapoints);
-				try {
-					ClientManager.shapesList.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
-				break;
-		}
 
-		repaint();
+				repaint();
+			}
+		}).start();
+//		endX = e.getX();
+//		endY = e.getY();
+//		switch(ClientManager.type)
+//		{
+//			case 0:
+//				try {
+//					ClientManager.shapesList.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
+//				} catch (RemoteException e1) {
+//					e1.printStackTrace();
+//				}
+//				ClientManager.shapes.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
+//				break;
+//			case 1 :
+//				try {
+//					ClientManager.shapesList.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+//				} catch (RemoteException e1) {
+//					e1.printStackTrace();
+//				}
+//				ClientManager.shapes.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+//				break;
+//			case 2 :
+//				try {
+//					ClientManager.shapesList.add(new Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+//				} catch (RemoteException e1) {
+//					e1.printStackTrace();
+//				}
+//				ClientManager.shapes.add(new Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+//				break;
+//			case 3 :
+//				try {
+//					ClientManager.shapesList.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+//				} catch (RemoteException e1) {
+//					e1.printStackTrace();
+//				}
+//				ClientManager.shapes.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+//				break;
+//			case 4:
+//				ArrayList<Point> midpoints = new ArrayList<Point>();
+//				for (int i = 0; i < points.size() - 1 ; i ++)
+//				{
+//					midpoints.add(points.get(i).getLocation());
+//				}
+//				actulpoints.add(midpoints);
+//				try {
+//					ClientManager.shapesList.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
+//				} catch (RemoteException e1) {
+//					e1.printStackTrace();
+//				}
+//				ClientManager.shapes.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
+//				break;
+//			case 5:
+//				String inputValue = JOptionPane.showInputDialog("Please input a value");
+//				if(inputValue.length() == 0)
+//				{
+//					break;
+//				}
+//				else
+//				{
+//					try {
+//						ClientManager.shapesList.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
+//					} catch (RemoteException e1) {
+//						e1.printStackTrace();
+//					}
+//					ClientManager.shapes.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
+//					break;
+//				}
+//			case 6:
+//				ArrayList<Point> erapoints = new ArrayList<Point>();
+//				for (int i = 0; i < points.size() - 1 ; i ++)
+//				{
+//					erapoints.add(points.get(i).getLocation());
+//				}
+//				erasepoints.add(erapoints);
+//				try {
+//					ClientManager.shapesList.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
+//				} catch (RemoteException e1) {
+//					e1.printStackTrace();
+//				}
+//				ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
+//				break;
+//		}
+//
+//		repaint();
 
 
 	}
@@ -235,7 +322,17 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		{
 			points.add(new Point(endX,endY));
 		}
+
 		repaint();
+//		BufferedImage image = new BufferedImage(ClientManager.displayArea.getWidth(),
+//				ClientManager.displayArea.getHeight(),BufferedImage.TYPE_INT_RGB);
+//		Image image1 = new Image(image,null);
+//		try {
+//
+//			ClientManager.shapesList.castDraw(image1);
+//		} catch (RemoteException e1) {
+//			e1.printStackTrace();
+//		}
 	}
 
 	@Override
@@ -244,12 +341,20 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 	}
 
 	public void paintRmiShape(List<Shape> shapes) throws RemoteException {
+		repaint();
 		ClientManager.shapes = shapes;
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		for (Shape shape: shapes)
 		{
 			shape.drawShape(g);
 		}
+
+	}
+
+	public void drawImage(Image image) throws RemoteException {
+		repaint();
+		Graphics2D g = (Graphics2D) this.getGraphics();
+		g.drawImage(image.getImage(),0,0,this.getWidth(),this.getHeight(),this);
 
 	}
 }

@@ -5,9 +5,12 @@ import remote.Client;
 import remote.MessageList;
 import remote.ShapeList;
 import remote.UserList;
+import shape.Image;
 import shape.Shape;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.NotBoundException;
@@ -129,6 +132,31 @@ public class IClient extends UnicastRemoteObject implements Client {
         clientManager.getDisplayArea().paintRmiShape(shapes);
     }
 
+    @Override
+    public void update(Image image) throws RemoteException {
+       //clientManager.setDisplayArea(drawPan);
+       //clientManager.getDisplayArea().drawImage(image);
+        System.out.println("Called");
+    }
+
+
+    public void removeAll() throws RemoteException {
+//        while(isManager == true){
+//            try {
+//                userManager.closeBoard();
+//                System.out.println("CLOSING BOARD!");
+//                if(userManager.size() == 1)
+//                {
+//                    userManager.removeClient(this);
+//                    System.out.println("try");
+//                    break;
+//                }
+//            } catch (RemoteException e1) {
+//                e1.printStackTrace();
+//            }
+//        }
+    }
+
     public static void main(String[] args) throws RemoteException, NotBoundException {
 
 
@@ -152,6 +180,7 @@ public class IClient extends UnicastRemoteObject implements Client {
             waiting.close();
             client.setActive();
         }
+
         client.initialMsgLst(msgManager.getList());
         client.initialUserLst(userManager.getList());
         clientManager.addWindowListener(new WindowAdapter() {
@@ -182,6 +211,28 @@ public class IClient extends UnicastRemoteObject implements Client {
 
 
 
+                System.out.println("Exit when Closed event");
+                System.exit(0);
+            }
+        });
+
+        clientManager.menu.exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                while(isManager == true){
+                    try {
+                        userManager.closeBoard();
+                        System.out.println("CLOSING BOARD!");
+                        if(userManager.size() == 1)
+                        {
+                            userManager.removeClient(client);
+                            System.out.println("try");
+                            break;
+                        }
+                    } catch (RemoteException e1) {
+                        e1.printStackTrace();
+                    }
+                }
                 System.out.println("Exit when Closed event");
                 System.exit(0);
             }

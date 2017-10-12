@@ -1,17 +1,19 @@
 package shape;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.*;
-import javax.imageio.ImageIO;
+import client.ClientManager;
 
-public class Image implements Shape {
-	
-	private BufferedImage image;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+
+public class Image implements Shape,Serializable {
+
+	public BufferedImage getImage() {
+		return image;
+	}
+
+	private transient BufferedImage image;
 	private String filePath;
 	
 	public Image(BufferedImage image,String filePath) {
@@ -30,7 +32,7 @@ public class Image implements Shape {
 
 	@Override
 	public void drawShape(Graphics2D g2) {
-		g2.drawImage(image, 0, 0, null);
+		g2.drawImage(image, 0, 0, ClientManager.getDisplayArea());
 		
 	}
 
@@ -39,5 +41,18 @@ public class Image implements Shape {
 		writer.printf("I%s\r\n", filePath);
 		
 	}
+
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.defaultWriteObject();
+		ImageIO.write(image, "png", out); // png is lossless
+
+	}
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
+		image = ImageIO.read(in);
+
+	}
+
 
 }

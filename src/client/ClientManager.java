@@ -25,7 +25,11 @@ public class ClientManager extends JFrame {
         this.user = user;
     }
 
-    //DisplayArea
+	public static void setDisplayArea(DrawPan displayArea) {
+		ClientManager.displayArea = displayArea;
+	}
+
+	//DisplayArea
 	public static DrawPan displayArea;
 
 	//commandArea

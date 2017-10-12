@@ -7,6 +7,7 @@ import file_operations.SaveFile;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class MenuListener implements ActionListener {
 	
@@ -35,13 +36,28 @@ public class MenuListener implements ActionListener {
 			}
 			
 		} else if(e.getActionCommand().equals("Open")) {
-			OpenFile open = new OpenFile(saveInstance);
+			try {
+				OpenFile open = new OpenFile(saveInstance);
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
 			haveSaved=true;
+			try {
+				ClientManager.shapesList.broadcast(ClientManager.shapesList.getList());
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
 			ClientManager.displayArea.repaint();
 		}
 		if(e.getActionCommand().equals("New")) {
 			haveSaved=false;
 			ClientManager.shapes.clear();
+			try {
+				ClientManager.shapesList.clear();
+				ClientManager.shapesList.broadcast(ClientManager.shapesList.getList());
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			}
 			System.out.println(ClientManager.shapes.size());
 			ClientManager.displayArea.removeAll();
 			ClientManager.displayArea.revalidate();
@@ -57,7 +73,7 @@ public class MenuListener implements ActionListener {
 				haveSaved=true;
 			}
 		} else if(e.getActionCommand().equals("Exit")) {
-			
+
 		}
 		
 	}
