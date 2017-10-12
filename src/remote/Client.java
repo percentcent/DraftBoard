@@ -25,5 +25,8 @@ public interface Client extends Remote {
 	public void draw(List<Shape> shapes) throws RemoteException;
 	public void update(Image image) throws RemoteException;
 
+	public static void removeAll() throws RemoteException {
+
+	}
 }
 

@@ -17,7 +17,7 @@ public class Menu extends JMenuBar {
 	JMenuItem openFile;
 	JMenuItem saveFile;
 	JMenuItem saveasFile;
-	JMenuItem exit;
+	public JMenuItem exit;
 	
 	public Menu() {
 		file = new JMenu("File");
