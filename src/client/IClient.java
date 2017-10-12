@@ -180,27 +180,7 @@ public class IClient extends UnicastRemoteObject implements Client {
             waiting.close();
             client.setActive();
         }
-        clientManager.menu.exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                while(isManager == true){
-                    try {
-                        userManager.closeBoard();
-                        System.out.println("CLOSING BOARD!");
-                        if(userManager.size() == 1)
-                        {
-                            userManager.removeClient(client);
-                            System.out.println("try");
-                            break;
-                        }
-                    } catch (RemoteException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-                System.out.println("Exit when Closed event");
-                System.exit(0);
-            }
-        });
+
         client.initialMsgLst(msgManager.getList());
         client.initialUserLst(userManager.getList());
         clientManager.addWindowListener(new WindowAdapter() {
@@ -231,6 +211,28 @@ public class IClient extends UnicastRemoteObject implements Client {
 
 
 
+                System.out.println("Exit when Closed event");
+                System.exit(0);
+            }
+        });
+
+        clientManager.menu.exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                while(isManager == true){
+                    try {
+                        userManager.closeBoard();
+                        System.out.println("CLOSING BOARD!");
+                        if(userManager.size() == 1)
+                        {
+                            userManager.removeClient(client);
+                            System.out.println("try");
+                            break;
+                        }
+                    } catch (RemoteException e1) {
+                        e1.printStackTrace();
+                    }
+                }
                 System.out.println("Exit when Closed event");
                 System.exit(0);
             }
