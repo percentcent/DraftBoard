@@ -141,23 +141,6 @@ public class IClient extends UnicastRemoteObject implements Client {
     }
 
 
-    public void removeAll() throws RemoteException {
-//        while(isManager == true){
-//            try {
-//                userManager.closeBoard();
-//                System.out.println("CLOSING BOARD!");
-//                if(userManager.size() == 1)
-//                {
-//                    userManager.removeClient(this);
-//                    System.out.println("try");
-//                    break;
-//                }
-//            } catch (RemoteException e1) {
-//                e1.printStackTrace();
-//            }
-//        }
-    }
-
     public static void main(String[] args) throws RemoteException, NotBoundException {
 
 

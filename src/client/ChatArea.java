@@ -1,8 +1,8 @@
 package client;
 
-//import listener.ListenForBtnSend;
 
 import listener.ListenForBtnSend;
+import listener.UserListListener;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -24,6 +24,10 @@ public class ChatArea extends JPanel{
         JScrollPane spnlUserList = new JScrollPane(lstUsernames);
         spnlUserList.setPreferredSize(new Dimension(230, 120));
         spnlUserList.setBorder(new TitledBorder("User List"));
+        
+        UserListListener userListener = new UserListListener();
+        ListSelectionModel listSelectionModel = lstUsernames.getSelectionModel();
+        listSelectionModel.addListSelectionListener(userListener);
         
         lstMessages = new JList();
         lstMessages.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

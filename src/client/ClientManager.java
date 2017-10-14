@@ -42,7 +42,7 @@ public class ClientManager extends JFrame {
 	Menu menu;
 	
 	//ChatArea
-	public JPanel chatArea;
+	public JPanel chatArea= new ChatArea();
 
 	/*Define shape types*/
 	public final static int LINE = 0;
@@ -65,7 +65,7 @@ public class ClientManager extends JFrame {
 		this.setSize(1170, 700);
 		displayArea = new DrawPan();//initialize our canvas
 		commandArea = new CommandArea();//initialize out command area
-		chatArea = new ChatArea();
+		//chatArea = new ChatArea();
 		this.add(commandArea);
 		this.add(displayArea);
 		this.add(chatArea);
@@ -74,6 +74,7 @@ public class ClientManager extends JFrame {
 	}
 	
 	public void becomeManager() {
+		
 		menu = new Menu();
 		setJMenuBar(menu);
 		validate(); 
