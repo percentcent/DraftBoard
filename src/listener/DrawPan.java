@@ -205,7 +205,8 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 						ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
 						break;
 				}
-
+				repaint();
+				ClientManager.shapes.add(new Line(0,0,0,1,Color.WHITE,0));
 				repaint();
 			}
 		}).start();
@@ -348,7 +349,7 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 		{
 			shape.drawShape(g);
 		}
-
+		repaint();
 	}
 
 	public void drawImage(Image image) throws RemoteException {
