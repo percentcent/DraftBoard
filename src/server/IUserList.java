@@ -12,7 +12,7 @@ import java.util.List;
  * Created by hasee on 2017/9/21.
  */
 public class IUserList extends UnicastRemoteObject implements UserList {
-    private ArrayList<Client> clients;
+    private static ArrayList<Client> clients;
     private ArrayList<String> username;
     
     public IUserList() throws RemoteException {
@@ -61,14 +61,13 @@ public class IUserList extends UnicastRemoteObject implements UserList {
 
     }
 
+    @Override
     public void kickOutClient(int id) throws RemoteException {
         if(id<clients.size())
         {
         		Client c=clients.get(id);
-            username.remove(clients.indexOf(c));
-            clients.remove(c);
-            c.kickedOut();
-            broadcast();
+        		removeClient(c);
+        		c.kickedOut();
         }
 
     }

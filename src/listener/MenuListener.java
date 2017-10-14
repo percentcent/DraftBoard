@@ -6,6 +6,7 @@ import file_operations.SaveFile;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
@@ -21,7 +22,6 @@ public class MenuListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		if(e.getActionCommand().equals("Save")) {
 			if(haveSaved==false) {
 				try {

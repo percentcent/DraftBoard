@@ -10,8 +10,9 @@ import java.awt.*;
 
 public class ChatArea extends JPanel{
 	JScrollPane spnlMessage;
-	JList lstMessages,lstUsernames;
+	public static JList lstMessages,lstUsernames;
 	public static JTextArea txtInput;
+	public static JButton kick;
 	
 	public ChatArea() {
 		this.setBorder(new TitledBorder("Chat Room"));
@@ -25,9 +26,12 @@ public class ChatArea extends JPanel{
         spnlUserList.setPreferredSize(new Dimension(230, 120));
         spnlUserList.setBorder(new TitledBorder("User List"));
         
+        kick =new JButton("kick user");
+        kick.setPreferredSize(new Dimension(220, 15));
         UserListListener userListener = new UserListListener();
-        ListSelectionModel listSelectionModel = lstUsernames.getSelectionModel();
-        listSelectionModel.addListSelectionListener(userListener);
+        kick.addActionListener(userListener);
+        //ListSelectionModel listSelectionModel = lstUsernames.getSelectionModel();
+        //listSelectionModel.addListSelectionListener(userListener);
         
         lstMessages = new JList();
         lstMessages.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -54,8 +58,11 @@ public class ChatArea extends JPanel{
         pnlSendMsg.add(spnlInput);
         pnlSendMsg.add(bntSendMsg);
         this.add(spnlUserList);
+        this.add(kick);
         this.add(spnlMessage);
         this.add(pnlSendMsg);
+        kick.setVisible(false);
+        kick.setEnabled(false);
 	}
 	
 	public void setMsgList(java.util.List<String> msgs) {

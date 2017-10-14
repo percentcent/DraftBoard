@@ -6,6 +6,9 @@ import remote.ShapeList;
 import shape.Shape;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -42,7 +45,7 @@ public class ClientManager extends JFrame {
 	Menu menu;
 	
 	//ChatArea
-	public JPanel chatArea= new ChatArea();
+	public static JPanel chatArea;
 
 	/*Define shape types*/
 	public final static int LINE = 0;
@@ -65,7 +68,7 @@ public class ClientManager extends JFrame {
 		this.setSize(1170, 700);
 		displayArea = new DrawPan();//initialize our canvas
 		commandArea = new CommandArea();//initialize out command area
-		//chatArea = new ChatArea();
+		chatArea = new ChatArea();
 		this.add(commandArea);
 		this.add(displayArea);
 		this.add(chatArea);
@@ -74,7 +77,8 @@ public class ClientManager extends JFrame {
 	}
 	
 	public void becomeManager() {
-		
+		ChatArea.kick.setVisible(true);
+		ChatArea.kick.setEnabled(true);
 		menu = new Menu();
 		setJMenuBar(menu);
 		validate(); 

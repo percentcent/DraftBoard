@@ -68,6 +68,8 @@ public class IClient extends UnicastRemoteObject implements Client {
 
     @Override
     public void receiveUserList(List<String> userList) throws RemoteException {
+    	//for(String user:userList)
+    	//	System.out.println(user);
         ((ChatArea) clientManager.chatArea).setUserList(userList);
     }
 
