@@ -14,6 +14,6 @@ public class ClientCmdLineArgs {
 	}
 	
 	public String getUser() {
-		return host;
+		return user;
 	}
 }
