@@ -9,6 +9,10 @@ import shape.Image;
 import shape.Shape;
 
 import javax.swing.*;
+
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -159,15 +163,27 @@ public class IClient extends UnicastRemoteObject implements Client {
     }
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
-
-
-        Registry registry = LocateRegistry.getRegistry("localhost");
+    		ClientCmdLineArgs argsBean = new ClientCmdLineArgs();
+		CmdLineParser parser = new CmdLineParser(argsBean);
+		String host;
+		String user;
+		try {
+			parser.parseArgument(args);
+			host = argsBean.getHost();
+			user = argsBean.getUser();		
+		} catch (CmdLineException e) {
+			System.err.println(e.getMessage());
+			parser.printUsage(System.err);
+			return;
+		}
+		
+        Registry registry = LocateRegistry.getRegistry(host);
         MessageList msgManager = (MessageList)registry.lookup("MsgManager");
         UserList userManager = (UserList)registry.lookup("UserManager");
         ShapeList shapeManager = (ShapeList)registry.lookup("ShapeManager");
         Client client = new IClient(msgManager, userManager,shapeManager);
         clientManager.setVisible(false);
-        userManager.addClient(client,"han2");
+        userManager.addClient(client,user);
         if(userId == 0)
         {
             System.out.println("you are manager");
