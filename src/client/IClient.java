@@ -185,6 +185,7 @@ public class IClient extends UnicastRemoteObject implements Client {
 
         client.initialMsgLst(msgManager.getList());
         client.initialUserLst(userManager.getList());
+        client.draw(shapeManager.getList());
         clientManager.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
             	while(isManager == true){
