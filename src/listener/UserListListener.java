@@ -18,31 +18,37 @@ import javax.swing.*;
 public class UserListListener implements ActionListener{
 	@Override
     public void actionPerformed(ActionEvent e) {
-		int IsSelected = ChatArea.lstUsernames.getSelectedValues().length;
-		if (IsSelected > 0) {
-            
-			if(JOptionPane.showConfirmDialog(null, "Do you want to kick out this user?","Kick Out",
-        			JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)
-			{
-        		int num = ChatArea.lstUsernames.getSelectedIndex();
-        		if(num!=0) {
-        			try {
-     
-        				IClient.userManager.kickOutClient(num);
-        			
-        			}catch(RemoteException e1)
-        			{
-        				e1.printStackTrace();
-        			}
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(null, "It is yourself(manager).");
-        		}
-        		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				int IsSelected = ChatArea.lstUsernames.getSelectedValues().length;
+				if (IsSelected > 0) {
+		            
+					if(JOptionPane.showConfirmDialog(null, "Do you want to kick out this user?","Kick Out",
+		        			JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)
+					{
+		        		int num = ChatArea.lstUsernames.getSelectedIndex();
+		        		if(num!=0) {
+		        			try {
+		     
+		        				IClient.userManager.kickOutClient(num);
+		        			
+		        			}catch(RemoteException e1)
+		        			{
+		        				e1.printStackTrace();
+		        			}
+		        		}
+		        		else {
+		        			JOptionPane.showMessageDialog(null, "It is yourself(manager).");
+		        		}
+		        		
+					}
+		            
+		        } else {
+		            JOptionPane.showMessageDialog(null, "please select one user");
+		        }
 			}
-            
-        } else {
-            JOptionPane.showMessageDialog(null, "please select one user");
-        }
+		}).start();
+		
 	}
 }
