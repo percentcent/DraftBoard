@@ -93,12 +93,11 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 					g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
 				}
 				break;
-
-
 		}
-
-
-
+		
+		g.setStroke(new BasicStroke(1));
+		g.setColor(Color.WHITE);
+		g.drawLine(0,0,1,1);
 
 	}
 	@Override
@@ -178,6 +177,16 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 						//ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
 						break;
 				}
+				//repaint();
+				//ClientManager.shapesList.add(new Line(0,0,1,1,Color.WHITE,1));
+				//repaint();
+				startX = 0;
+				startY = 0;
+				endX = 0;
+				endY = 0;
+				points = new ArrayList<Point>();
+				actulpoints = new ArrayList<ArrayList<Point>>();
+				erasepoints = new ArrayList<ArrayList<Point>>();
 				} catch(RemoteException e) {
 					JOptionPane msg = new JOptionPane("There is something wrong with server. Please try again later.", JOptionPane.WARNING_MESSAGE);
 			        final JDialog dlg = msg.createDialog("Exiting");
@@ -186,9 +195,7 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 
 			        System.exit(0);
 				}
-				repaint();
-				//ClientManager.shapes.add(new Line(0,0,0,1,Color.WHITE,1));
-				//repaint();
+				
 			}
 		}).start();
 //		endX = e.getX();
