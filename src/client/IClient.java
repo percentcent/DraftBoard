@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -147,7 +149,7 @@ public class IClient extends UnicastRemoteObject implements Client {
     }
 
 
-    public static void main(String[] args) throws RemoteException, NotBoundException {
+    public static void main(String[] args) {
     		ClientCmdLineArgs argsBean = new ClientCmdLineArgs();
 		CmdLineParser parser = new CmdLineParser(argsBean);
 		String host;
@@ -162,7 +164,10 @@ public class IClient extends UnicastRemoteObject implements Client {
 			return;
 		}
 		
-        Registry registry = LocateRegistry.getRegistry(host);
+        Registry registry;
+		try {
+			registry = LocateRegistry.getRegistry(host);
+		
         MessageList msgManager = (MessageList)registry.lookup("MsgManager");
         UserList userManager = (UserList)registry.lookup("UserManager");
         ShapeList shapeManager = (ShapeList)registry.lookup("ShapeManager");
@@ -182,7 +187,8 @@ public class IClient extends UnicastRemoteObject implements Client {
             waiting.close();
             client.setActive();
         }
-
+//        String ip = InetAddress.getLocalHost().getHostAddress();
+//        System.out.println(ip);
         client.initialMsgLst(msgManager.getList());
         client.initialUserLst(userManager.getList());
         client.draw(shapeManager.getList());
@@ -218,6 +224,7 @@ public class IClient extends UnicastRemoteObject implements Client {
                 System.exit(0);
             }
         });
+		
 
         clientManager.menu.exit.addActionListener(new ActionListener() {
             @Override
@@ -240,5 +247,14 @@ public class IClient extends UnicastRemoteObject implements Client {
                 System.exit(0);
             }
         });
+		} catch (RemoteException | NotBoundException e2) {
+			// TODO Auto-generated catch block
+			JOptionPane msg = new JOptionPane("There is something wrong with server. Please try again later.", JOptionPane.WARNING_MESSAGE);
+	        final JDialog dlg = msg.createDialog("Exiting");
+	        dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+	        dlg.setVisible(true);
+
+	        System.exit(0);
+		}
     }
 }

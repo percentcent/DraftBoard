@@ -206,8 +206,8 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 						break;
 				}
 				repaint();
-				ClientManager.shapes.add(new Line(0,0,0,1,Color.WHITE,0));
-				repaint();
+				//ClientManager.shapes.add(new Line(0,0,0,1,Color.WHITE,1));
+				//repaint();
 			}
 		}).start();
 //		endX = e.getX();

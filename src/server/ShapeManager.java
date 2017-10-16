@@ -4,8 +4,10 @@ import remote.Client;
 import remote.ShapeList;
 import remote.UserList;
 import shape.Image;
+import shape.Line;
 import shape.Shape;
 
+import java.awt.Color;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ public class ShapeManager extends UnicastRemoteObject implements ShapeList {
 	public synchronized void add(Shape shape) throws RemoteException {
 		shapes.add(shape);
 		System.out.println(shapes.size());
+		broadcast(shapes);
+		shapes.add(new Line(0,0,1,1,Color.WHITE,1));
 		broadcast(shapes);
 	}
 

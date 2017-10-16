@@ -14,6 +14,7 @@ import java.util.List;
 public class IUserList extends UnicastRemoteObject implements UserList {
     private static ArrayList<Client> clients;
     private ArrayList<String> username;
+    private int currentId = 1;
     
     public IUserList() throws RemoteException {
     		clients = new ArrayList<>();
@@ -22,7 +23,7 @@ public class IUserList extends UnicastRemoteObject implements UserList {
 
 
     @Override
-    public void addClient(Client c, String name) throws RemoteException {
+    public synchronized void addClient(Client c, String name) throws RemoteException {
         if(!clients.contains(c)&&clients.size() ==0)
         {
             clients.add(c);
@@ -37,11 +38,13 @@ public class IUserList extends UnicastRemoteObject implements UserList {
                 {
                     clients.add(c);
                     c.setUsername(name);
-                    int id =clients.indexOf(c);
-                    username.add(name + "(" + id + ")");
+                    //int id =clients.indexOf(c);
+                    username.add(name + "(" + currentId + ")");
                     broadcast();
                     c.setActive();
-                    sendUserId(id,c);
+                    sendUserId(currentId,c);
+                    currentId = currentId + 1;
+                    System.out.println(currentId);
                 }
             else
                 {
@@ -109,7 +112,20 @@ public class IUserList extends UnicastRemoteObject implements UserList {
     @Override
     public void sendUserId(int a,Client c) throws RemoteException
     {
-        c.getUserId(a);
+    		new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					try {
+						c.getUserId(a);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+    			
+    		}).start();
     }
     
     @Override
