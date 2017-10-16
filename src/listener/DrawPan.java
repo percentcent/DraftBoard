@@ -325,20 +325,19 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 	}
 
 	public void paintRmiShape(List<Shape> shapes) throws RemoteException {
-		repaint();
 		ClientManager.shapes = shapes;
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		for (Shape shape: ClientManager.shapes)
 		{
 			shape.drawShape(g);
 		}
-		repaint();
+		//repaint();
 	}
 
 	public void drawImage(Image image) throws RemoteException {
-		repaint();
+		//repaint();
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.drawImage(image.getImage(),0,0,this.getWidth(),this.getHeight(),this);
-		repaint();
+		//repaint();
 	}
 }
