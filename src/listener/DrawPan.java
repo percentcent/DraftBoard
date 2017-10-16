@@ -179,7 +179,12 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 						break;
 				}
 				} catch(RemoteException e) {
-					System.out.println("There is something problem with Server.");
+					JOptionPane msg = new JOptionPane("There is something wrong with server. Please try again later.", JOptionPane.WARNING_MESSAGE);
+			        final JDialog dlg = msg.createDialog("Exiting");
+			        dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			        dlg.setVisible(true);
+
+			        System.exit(0);
 				}
 				repaint();
 				//ClientManager.shapes.add(new Line(0,0,0,1,Color.WHITE,1));

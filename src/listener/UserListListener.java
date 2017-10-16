@@ -35,7 +35,12 @@ public class UserListListener implements ActionListener{
 		        			
 		        			}catch(RemoteException e1)
 		        			{
-		        				e1.printStackTrace();
+		        				JOptionPane msg = new JOptionPane("There is something wrong with server. Please try again later.", JOptionPane.WARNING_MESSAGE);
+		    			        final JDialog dlg = msg.createDialog("Exiting");
+		    			        dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		    			        dlg.setVisible(true);
+
+		    			        System.exit(0);
 		        			}
 		        		}
 		        		else {
