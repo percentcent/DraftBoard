@@ -148,6 +148,11 @@ public class IClient extends UnicastRemoteObject implements Client {
         System.out.println("Called");
     }
 
+    @Override
+    public void becomeManager() throws RemoteException {
+        clientManager.becomeManager();
+    }
+
 
     public static void main(String[] args) {
     		ClientCmdLineArgs argsBean = new ClientCmdLineArgs();
@@ -180,7 +185,7 @@ public class IClient extends UnicastRemoteObject implements Client {
             isManager=true;
             waiting.close();
             client.setActive();
-            clientManager.becomeManager();
+            //clientManager.becomeManager();
         }
         else
         {

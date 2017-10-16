@@ -28,6 +28,7 @@ public class IUserList extends UnicastRemoteObject implements UserList {
         {
             clients.add(c);
             c.setUsername(name);
+            c.becomeManager();
             username.add(name +"(0: manager)");
             sendUserId(0,c);
             broadcast();

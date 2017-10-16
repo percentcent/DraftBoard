@@ -39,13 +39,29 @@ public class Freehand implements Shape {
 			this.points = new ArrayList<Point>();
 			while(reader.read(x,0,10)!=-1 && reader.read(y,0,10)!=-1) {
 
-				int newx = Integer.parseInt(new String(x));
-				int newy = Integer.parseInt(new String(y));
-				Point newpoint = new Point(newx,newy);
-				points.add(newpoint);
-				if(reader.read()=='.'){
+				try
+				{
+					int newx = Integer.parseInt(new String(x));
+					int newy = Integer.parseInt(new String(y));
+					Point newpoint = new Point(newx,newy);
+					points.add(newpoint);
+				}
+				catch (NumberFormatException e)
+				{
 					break;
 				}
+				finally {
+					if(reader.read()=='.'){
+						break;
+					}
+				}
+//				int newx = Integer.parseInt(new String(x));
+//				int newy = Integer.parseInt(new String(y));
+//				Point newpoint = new Point(newx,newy);
+//				points.add(newpoint);
+//				if(reader.read()=='.'){
+//					break;
+//				}
 			}
 		}
 

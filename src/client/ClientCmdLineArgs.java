@@ -2,6 +2,7 @@ package client;
 
 import org.kohsuke.args4j.Option;
 
+
 public class ClientCmdLineArgs {
 	@Option(required = true, name = "-h", aliases = {"--host"}, usage = "Hostname")
 	private String host;
