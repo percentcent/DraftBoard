@@ -103,8 +103,8 @@ public class IClient extends UnicastRemoteObject implements Client {
 
     @Override
     public void getUserId(int a) throws RemoteException {
-        JOptionPane.showMessageDialog(clientManager, "Your userid is " + a, "UserId. ", JOptionPane.YES_NO_OPTION);
-        setUserId(a);
+    		setUserId(a);
+        JOptionPane.showMessageDialog(clientManager, "Your userid is " + a, "UserId. ", JOptionPane.YES_NO_OPTION);  
     }
     
     @Override

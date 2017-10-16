@@ -29,6 +29,7 @@ public class IUserList extends UnicastRemoteObject implements UserList {
             clients.add(c);
             c.setUsername(name);
             username.add(name +"(0: manager)");
+            sendUserId(0,c);
             broadcast();
         }
 
@@ -40,9 +41,9 @@ public class IUserList extends UnicastRemoteObject implements UserList {
                     c.setUsername(name);
                     //int id =clients.indexOf(c);
                     username.add(name + "(" + currentId + ")");
-                    broadcast();
                     c.setActive();
                     sendUserId(currentId,c);
+                    broadcast();
                     currentId = currentId + 1;
                     System.out.println(currentId);
                 }
