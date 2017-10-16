@@ -94,11 +94,6 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				}
 				break;
 		}
-		
-		g.setStroke(new BasicStroke(1));
-		g.setColor(Color.WHITE);
-		g.drawLine(0,0,1,1);
-
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
