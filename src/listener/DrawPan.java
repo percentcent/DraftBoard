@@ -17,7 +17,7 @@ import java.util.List;
 public class DrawPan extends JPanel implements ActionListener, MouseListener,MouseMotionListener {
 
 	private Color color;
-	int startX,startY,endX,endY;
+	int startX = -1,startY = -1,endX = -1,endY = -1;
 	private ArrayList<Point> points = new ArrayList<Point>();
 	private ArrayList<ArrayList<Point>> actulpoints = new ArrayList<ArrayList<Point>>();
 	private ArrayList<ArrayList<Point>> erasepoints = new ArrayList<ArrayList<Point>>();
@@ -52,48 +52,53 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				shape.drawShape(g);
 
 		}
-
-		switch(ClientManager.type)
-		{
-			case 0 :
-				g.setStroke(new BasicStroke(WidthPanel.width));
-				g.setColor(ColorChooser.color);
-				g.drawLine(startX, startY, endX, endY);
-				break;
-			case 1 :
-				g.setStroke(new BasicStroke(WidthPanel.width));
-				g.setColor(ColorChooser.color);
-				g.drawOval(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startX - endX));
-				break;
-			case 2 :
-				g.setStroke(new BasicStroke(WidthPanel.width));
-				g.setColor(ColorChooser.color);
-				g.drawRect(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startY - endY));
-				break;
-			case 3 :
-				g.setStroke(new BasicStroke(WidthPanel.width));
-				g.setColor(ColorChooser.color);
-				g.drawOval(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startY - endY));
-				break;
-			case 4:
-
-				g.setStroke(new BasicStroke(WidthPanel.width));
-				g.setColor(ColorChooser.color);
 		
-				for (int i = 0;i < points.size() -1;i++)
-				{
-					g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
-				}
-				break;
-			case 6:
-				g.setStroke(new BasicStroke(EraserPanel.width));
-				g.setColor(Color.white);
-				for (int i = 0;i < points.size() -1;i++)
-				{
-					g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
-				}
-				break;
+		if(startX == -1 || startY == -1 || endX == -1 || endY == -1) {
+			
+		} else {
+			switch(ClientManager.type)
+			{
+				case 0 :
+					g.setStroke(new BasicStroke(WidthPanel.width));
+					g.setColor(ColorChooser.color);
+					g.drawLine(startX, startY, endX, endY);
+					break;
+				case 1 :
+					g.setStroke(new BasicStroke(WidthPanel.width));
+					g.setColor(ColorChooser.color);
+					g.drawOval(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startX - endX));
+					break;
+				case 2 :
+					g.setStroke(new BasicStroke(WidthPanel.width));
+					g.setColor(ColorChooser.color);
+					g.drawRect(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startY - endY));
+					break;
+				case 3 :
+					g.setStroke(new BasicStroke(WidthPanel.width));
+					g.setColor(ColorChooser.color);
+					g.drawOval(Math.min(startX, endX), Math.min(startY, endY), Math.abs(startX - endX), Math.abs(startY - endY));
+					break;
+				case 4:
+
+					g.setStroke(new BasicStroke(WidthPanel.width));
+					g.setColor(ColorChooser.color);
+			
+					for (int i = 0;i < points.size() -1;i++)
+					{
+						g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
+					}
+					break;
+				case 6:
+					g.setStroke(new BasicStroke(EraserPanel.width));
+					g.setColor(Color.white);
+					for (int i = 0;i < points.size() -1;i++)
+					{
+						g.drawLine(points.get(i).x,points.get(i).y,points.get(i+1).x,points.get(i+1).y);
+					}
+					break;
+			}
 		}
+		
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -121,67 +126,71 @@ public class DrawPan extends JPanel implements ActionListener, MouseListener,Mou
 				endX = e.getX();
 				endY = e.getY();
 				try {
-				switch(ClientManager.type)
-				{
-					case 0:
-						ClientManager.shapesList.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
-						//ClientManager.shapes.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
-						break;
-					case 1 :
-						ClientManager.shapesList.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-						//ClientManager.shapes.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-						break;
-					case 2 :
-						ClientManager.shapesList.add(new shape.Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-						//ClientManager.shapes.add(new shape.Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-						break;
-					case 3 :
-						ClientManager.shapesList.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-						//ClientManager.shapes.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
-						break;
-					case 4:
-						ArrayList<Point> midpoints = new ArrayList<Point>();
-						for (int i = 0; i < points.size() - 1 ; i ++)
+					if(startX == -1 || startY == -1 || endX == -1 || endY == -1) {
+						
+					} else {
+						switch(ClientManager.type)
 						{
-							midpoints.add(points.get(i).getLocation());
+							case 0:
+								ClientManager.shapesList.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
+								//ClientManager.shapes.add(new Line(startX, startY, endX, endY, ColorChooser.color,WidthPanel.width));
+								break;
+							case 1 :
+								ClientManager.shapesList.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+								//ClientManager.shapes.add(new Circle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+								break;
+							case 2 :
+								ClientManager.shapesList.add(new shape.Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+								//ClientManager.shapes.add(new shape.Rectangle(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+								break;
+							case 3 :
+								ClientManager.shapesList.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+								//ClientManager.shapes.add(new Oval(startX, endX, startY, endY, ColorChooser.color,WidthPanel.width));
+								break;
+							case 4:
+								ArrayList<Point> midpoints = new ArrayList<Point>();
+								for (int i = 0; i < points.size() - 1 ; i ++)
+								{
+									midpoints.add(points.get(i).getLocation());
+								}
+								actulpoints.add(midpoints);
+								ClientManager.shapesList.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
+								//ClientManager.shapes.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
+								break;
+							case 5:
+								String inputValue = JOptionPane.showInputDialog("Please input a value");
+								if(inputValue.length() == 0)
+								{
+									break;
+								}
+								else
+								{
+									ClientManager.shapesList.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
+									//ClientManager.shapes.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
+									break;
+								}
+							case 6:
+								ArrayList<Point> erapoints = new ArrayList<Point>();
+								for (int i = 0; i < points.size() - 1 ; i ++)
+								{
+									erapoints.add(points.get(i).getLocation());
+								}
+								erasepoints.add(erapoints);
+								ClientManager.shapesList.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
+								//ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
+								break;
 						}
-						actulpoints.add(midpoints);
-						ClientManager.shapesList.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
-						//ClientManager.shapes.add(new Freehand(midpoints,ColorChooser.color,WidthPanel.width));
-						break;
-					case 5:
-						String inputValue = JOptionPane.showInputDialog("Please input a value");
-						if(inputValue.length() == 0)
-						{
-							break;
-						}
-						else
-						{
-							ClientManager.shapesList.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
-							//ClientManager.shapes.add(new Text(startX, endX, startY, endY, Color.BLACK,inputValue));
-							break;
-						}
-					case 6:
-						ArrayList<Point> erapoints = new ArrayList<Point>();
-						for (int i = 0; i < points.size() - 1 ; i ++)
-						{
-							erapoints.add(points.get(i).getLocation());
-						}
-						erasepoints.add(erapoints);
-						ClientManager.shapesList.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
-						//ClientManager.shapes.add(new Eraser(erapoints,Color.WHITE,EraserPanel.width));
-						break;
-				}
-				//repaint();
-				//ClientManager.shapesList.add(new Line(0,0,1,1,Color.WHITE,1));
-				//repaint();
-				startX = 0;
-				startY = 0;
-				endX = 0;
-				endY = 0;
-				points = new ArrayList<Point>();
-				actulpoints = new ArrayList<ArrayList<Point>>();
-				erasepoints = new ArrayList<ArrayList<Point>>();
+						//repaint();
+						//ClientManager.shapesList.add(new Line(0,0,1,1,Color.WHITE,1));
+						//repaint();
+						startX = -1;
+						startY = -1;
+						endX = -1;
+						endY = -1;
+						points = new ArrayList<Point>();
+						actulpoints = new ArrayList<ArrayList<Point>>();
+						erasepoints = new ArrayList<ArrayList<Point>>();
+					}
 				} catch(RemoteException e) {
 					JOptionPane msg = new JOptionPane("There is something wrong with server. Please try again later.", JOptionPane.WARNING_MESSAGE);
 			        final JDialog dlg = msg.createDialog("Exiting");
