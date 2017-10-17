@@ -16,7 +16,7 @@ public class MessageManager extends UnicastRemoteObject implements MessageList{
 	}
 
 	@Override
-	public void add(String message) throws RemoteException{
+	public synchronized void add(String message) throws RemoteException{
 		// TODO Auto-generated method stub
 		messages.add(message);
 		broadcast();
