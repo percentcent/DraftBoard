@@ -201,6 +201,7 @@ public class IClient extends UnicastRemoteObject implements Client {
             public void windowClosing(WindowEvent e) {
             	while(isManager == true){
                 	try {
+                			shapeList.clear();
 						userManager.closeBoard();
 						System.out.println("CLOSING BOARD!");
 						if(userManager.size() == 1)
